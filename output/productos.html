@@ -1,0 +1,2176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Products — Hikari's Records</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ===== BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #fafafa; color: #1a1a1a; }
+
+    /* ===== TOP BAR ===== */
+    .top-bar {
+      background: #1a1a1a;
+      color: #ccc;
+      font-size: 12px;
+      padding: 6px 0;
+      letter-spacing: 0.5px;
+    }
+    .top-bar a { color: #ccc; text-decoration: none; }
+    .top-bar a:hover { color: #fff; }
+
+    /* ===== NAVBAR ===== */
+    .navbar-main {
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 0.75rem 2rem;
+    }
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .brand span { color: #c9a96e; }
+    .search-bar {
+      flex: 1;
+      max-width: 420px;
+      position: relative;
+    }
+    .search-bar input {
+      width: 100%;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 50px;
+      padding: 8px 44px 8px 18px;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .search-bar input:focus { border-color: #c9a96e; }
+    .search-bar button {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #888;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+      margin: 0;
+    }
+    .nav-links a {
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { background: #f5f0e8; color: #c9a96e; }
+    .nav-icon-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #555;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 8px;
+      transition: 0.2s;
+    }
+    .nav-icon-btn:hover { background: #f5f0e8; color: #c9a96e; }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb-bar {
+      background: #f5f0e8;
+      padding: 10px 2rem;
+      border-bottom: 1px solid #e8dfc8;
+    }
+    .breadcrumb { margin: 0; font-size: 13px; }
+    .breadcrumb-item a { color: #c9a96e; text-decoration: none; }
+    .breadcrumb-item.active { color: #666; }
+    .breadcrumb-item + .breadcrumb-item::before { color: #bbb; }
+
+    /* ===== LAYOUT ===== */
+    .page-layout {
+      display: flex;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      gap: 2rem;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+    }
+    .sidebar-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #eeeeee;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .sidebar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #f5f0e8;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      color: #444;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 400;
+      transition: 0.2s;
+      margin-bottom: 2px;
+    }
+    .sidebar-link:hover, .sidebar-link.active {
+      background: #f5f0e8;
+      color: #c9a96e;
+    }
+    .sidebar-link i { font-size: 16px; width: 20px; text-align: center; }
+    .badge-count {
+      margin-left: auto;
+      background: #f5f0e8;
+      color: #c9a96e;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content { flex: 1; min-width: 0; }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      border-radius: 20px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #c9a96e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .page-header-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+    .page-header-text p { color: rgba(255,255,255,0.55); font-size: 14px; margin: 0; }
+
+    /* ===== FILTER BAR ===== */
+    .filter-bar {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #eee;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .filter-input {
+      flex: 1;
+      min-width: 180px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 50px;
+      padding: 8px 18px;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .filter-input:focus { border-color: #c9a96e; }
+    .filter-select {
+      border: 1.5px solid #e0e0e0;
+      border-radius: 50px;
+      padding: 8px 18px;
+      font-size: 14px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      cursor: pointer;
+      transition: border 0.2s;
+    }
+    .filter-select:focus { border-color: #c9a96e; }
+    .btn-filter {
+      background: #f5f0e8;
+      color: #c9a96e;
+      border: 1.5px solid #e8dfc8;
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-filter:hover { background: #c9a96e; color: #fff; border-color: #c9a96e; }
+    .btn-create {
+      background: linear-gradient(135deg, #c9a96e, #a07840);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-create:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,169,110,0.3); }
+
+    /* ===== PRODUCT CARDS ===== */
+    .product-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #eeeeee;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: 0.25s ease;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    }
+    .product-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .product-card-body { padding: 1rem; }
+    .product-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 2px;
+    }
+    .product-artist { font-size: 13px; color: #888; margin-bottom: 6px; }
+    .product-price {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #c9a96e;
+      margin-bottom: 8px;
+    }
+    .product-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .badge-genre {
+      background: #f5f0e8;
+      color: #a07840;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .badge-type {
+      background: #f0f0f0;
+      color: #666;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .product-actions { display: flex; gap: 8px; }
+    .btn-view {
+      flex: 1;
+      border: 1.5px solid #1a1a1a;
+      background: none;
+      color: #1a1a1a;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+    }
+    .btn-view:hover { background: #1a1a1a; color: #fff; }
+    .btn-cart {
+      flex: 1;
+      border: 1.5px solid #c9a96e;
+      background: none;
+      color: #c9a96e;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+    }
+    .btn-cart:hover { background: #c9a96e; color: #fff; }
+    .wishlist-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      background: rgba(255,255,255,0.92);
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      color: #555;
+      transition: 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .wishlist-btn:hover { color: #e74c3c; background: #fff; }
+
+    /* ===== MODALS ===== */
+    .modal-content { border: none; border-radius: 16px; overflow: hidden; }
+    .modal-header { background: #1a1a1a; color: #fff; border-bottom: 3px solid #c9a96e; }
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+    .btn-close { filter: invert(1); }
+    .modal-detail-label {
+      font-size: 12px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+    .modal-detail-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 1rem;
+    }
+    .modal-form-label { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 6px; display: block; }
+    .modal-form-input {
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      width: 100%;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      transition: border 0.2s;
+    }
+    .modal-form-input:focus { border-color: #c9a96e; }
+    .btn-modal-cancel {
+      background: #f5f5f5;
+      color: #555;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-modal-cancel:hover { background: #eee; }
+    .btn-modal-save {
+      background: linear-gradient(135deg, #c9a96e, #a07840);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-modal-save:hover { opacity: 0.9; }
+    .btn-modal-delete {
+      background: none;
+      color: #dc3545;
+      border: 1.5px solid #dc3545;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: 0.2s;
+    }
+    .btn-modal-delete:hover { background: #dc3545; color: #fff; }
+
+    /* ===== MARQUEE ===== */
+    .marquee-section {
+      background: #1a1a1a;
+      padding: 16px 0;
+      overflow: hidden;
+      margin: 2.5rem 0;
+    }
+    .marquee-track {
+      display: flex;
+      animation: marquee 30s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 2rem;
+      color: #c9a96e;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    .marquee-item i { font-size: 16px; }
+    .marquee-dot { color: #555; font-size: 20px; }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #1a1a1a;
+      color: #ccc;
+      padding: 3rem 0 1.5rem;
+      margin-top: 3rem;
+    }
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .footer-brand span { color: #c9a96e; }
+    footer h6 {
+      color: #fff;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+    footer p, footer div { color: #999; font-size: 13px; line-height: 1.8; }
+    .footer-divider {
+      border-top: 1px solid #333;
+      margin: 2rem 0 1rem;
+    }
+    .footer-bottom {
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+    }
+    .footer-social a {
+      color: #666;
+      font-size: 18px;
+      margin-right: 12px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .footer-social a:hover { color: #c9a96e; }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+    <span><i class="bi bi-telephone me-1"></i> Whatsapp: 8604-1107 &nbsp;|&nbsp; <i class="bi bi-envelope me-1"></i> hikaris@gmail.com</span>
+    <span>Universidad Nacional — Diseño de Sitios Web — Proyecto 3</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar-main">
+  <div class="navbar-inner">
+    <a href="../index.html" class="brand">Hikari's <span>Records</span></a>
+
+    <!-- SEARCH -->
+    <div class="search-bar">
+      <input type="text" id="globalSearch" placeholder="Buscar artistas, álbumes, géneros...">
+      <button><i class="bi bi-search"></i></button>
+    </div>
+
+    <!-- NAV LINKS -->
+    <ul class="nav-links d-none d-lg-flex">
+      <li><a href="index.html" class="active">Inicio</a></li>
+      <li><a href="artista.html">Artistas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="generos.html">Géneros</a></li>
+      <li><a href="aboutus.html">Sobre Nosotros</a></li>
+    </ul>
+
+    <div class="d-flex gap-1 ms-auto ms-lg-0">
+      <button class="nav-icon-btn"><i class="bi bi-heart"></i></button>
+              <a href="checkout.html" class="nav-icon-btn">
+      <i class="bi bi-bag"></i>
+    </a>
+           <a href="auth.html" class="nav-icon-btn">
+      <i class="bi bi-person"></i>
+    </a>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="container-fluid px-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../index.html"><i class="bi bi-house me-1"></i>Inicio</a></li>
+        <li class="breadcrumb-item active">Products</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<!-- PAGE LAYOUT -->
+<div class="page-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar d-none d-xl-block">
+
+    <!-- PROJECT INFO -->
+    <div class="sidebar-card">
+      <div class="sidebar-title"><i class="bi bi-mortarboard me-2"></i>Proyecto</div>
+      <div style="font-size:12px; color:#666; line-height:1.7;">
+        <strong style="color:#1a1a1a;">Universidad Nacional</strong><br>
+        Escuela de Informática<br>
+        Diseño de Sitios Web<br>
+        <span style="color:#c9a96e; font-weight:600;">Proyecto 3 — InjaX SSG</span>
+      </div>
+    </div>
+
+    <!-- GENRES -->
+    <div class="sidebar-card">
+      <div class="sidebar-title">Géneros</div>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-music-note"></i> Pop
+        </a>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-music-note"></i> Rock
+        </a>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-music-note"></i> Reggaeton
+        </a>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-music-note"></i> K-Pop
+        </a>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-music-note"></i> R&B
+        </a>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-music-note"></i> Jazz
+        </a>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-music-note"></i> Electronica
+        </a>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-music-note"></i> Hip-Hop
+        </a>
+    </div>
+
+    <!-- TYPES -->
+    <div class="sidebar-card">
+      <div class="sidebar-title">Tipos</div>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-vinyl"></i> Vinyl
+        </a>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-vinyl"></i> CD
+        </a>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-vinyl"></i> Cassette
+        </a>
+        <a href="#" class="sidebar-link">
+          <i class="bi bi-vinyl"></i> Merchandise
+        </a>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="sidebar-card">
+      <div class="sidebar-title">Accesos rápidos</div>
+      <a href="#" class="sidebar-link"><i class="bi bi-people"></i> Artistas</a>
+      <a href="#" class="sidebar-link"><i class="bi bi-disc"></i> Álbumes</a>
+      <a href="#" class="sidebar-link"><i class="bi bi-collection-play"></i> Géneros</a>
+      <a href="#" class="sidebar-link"><i class="bi bi-search"></i> Búsqueda</a>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="page-header-text">
+        <h1><i class="bi bi-bag me-2" style="color:#c9a96e;"></i>Products</h1>
+        <p>Browse our full catalog of music records and merchandise</p>
+      </div>
+      <button class="btn-create" data-bs-toggle="modal" data-bs-target="#createProductModal">
+        <i class="bi bi-plus-lg"></i> Add Product
+      </button>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <input type="text" class="filter-input" id="searchInput" placeholder="Search product...">
+      <select class="filter-select" id="sortSelect">
+        <option value="">Sort</option>
+        <option value="asc">A — Z</option>
+        <option value="desc">Z — A</option>
+      </select>
+      <select class="filter-select" id="genreSelect">
+        <option value="">Genre</option>
+          <option value="Pop">Pop</option>
+          <option value="Rock">Rock</option>
+          <option value="Reggaeton">Reggaeton</option>
+          <option value="K-Pop">K-Pop</option>
+          <option value="R&B">R&B</option>
+          <option value="Jazz">Jazz</option>
+          <option value="Electronica">Electronica</option>
+          <option value="Hip-Hop">Hip-Hop</option>
+      </select>
+      <select class="filter-select" id="typeSelect">
+        <option value="">Type</option>
+          <option value="Vinyl">Vinyl</option>
+          <option value="CD">CD</option>
+          <option value="Cassette">Cassette</option>
+          <option value="Merchandise">Merchandise</option>
+      </select>
+      <button class="btn-filter" onclick="filterProducts()">
+        <i class="bi bi-funnel me-1"></i> Filter
+      </button>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <div class="row g-3" id="productsGrid">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-col"
+             data-nombre="Abbey Road"
+             data-genero="Rock"
+             data-tipo="Vinyl">
+          <div class="product-card">
+
+            <!-- Wishlist button -->
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">
+              <i class="bi bi-heart"></i>
+            </button>
+
+            <img src="https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg" alt="Abbey Road"
+                 onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+
+            <div class="product-card-body">
+              <div class="product-title">Abbey Road</div>
+              <div class="product-artist">The Beatles</div>
+              <div class="product-price">$24.99</div>
+              <div class="product-meta">
+                <span class="badge-genre">Rock</span>
+                <span class="badge-type">Vinyl</span>
+              </div>
+              <div class="product-actions">
+                <button class="btn-view"
+                        data-bs-toggle="modal"
+                        data-bs-target="#viewModal1">
+                  <i class="bi bi-eye me-1"></i> View
+                </button>
+                <button class="btn-cart">
+                  <i class="bi bi-cart-plus me-1"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW MODAL -->
+        <div class="modal fade" id="viewModal1" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="row g-0">
+                <div class="col-md-5"
+                     style="background: url('https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg') center/cover no-repeat; min-height: 400px; border-radius: 16px 0 0 16px;">
+                </div>
+                <div class="col-md-7 p-4 d-flex flex-column justify-content-center">
+                  <button type="button" class="btn-close mb-3 align-self-end"
+                          data-bs-dismiss="modal" style="filter:none;"></button>
+                  <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:#1a1a1a; margin-bottom:1.25rem;">
+                    Abbey Road
+                  </h3>
+                  <div class="modal-detail-label">Artist</div>
+                  <div class="modal-detail-value">The Beatles</div>
+                  <div class="modal-detail-label">Album</div>
+                  <div class="modal-detail-value">Abbey Road</div>
+                  <div class="modal-detail-label">Price</div>
+                  <div class="modal-detail-value" style="color:#c9a96e;">$24.99</div>
+                  <div class="modal-detail-label">Stock</div>
+                  <div class="modal-detail-value">15 units</div>
+                  <div class="modal-detail-label">Genre</div>
+                  <div class="modal-detail-value">Rock</div>
+                  <div class="modal-detail-label">Type</div>
+                  <div class="modal-detail-value">Vinyl</div>
+                  <div class="modal-detail-label">Release Date</div>
+                  <div class="modal-detail-value">1969-09-26</div>
+                  <div class="d-flex gap-2 mt-2">
+                    <button class="btn-cart" style="flex:1;">
+                      <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                    </button>
+                    <button class="btn-view" style="flex:1;" data-bs-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDIT MODAL -->
+        <div class="modal fade" id="editModal1" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  <i class="bi bi-pencil-square me-2" style="color:#c9a96e;"></i>Edit Product
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Name</label>
+                    <input type="text" class="modal-form-input" value="Abbey Road" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Artist</label>
+                    <input type="text" class="modal-form-input" value="The Beatles">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Album</label>
+                    <input type="text" class="modal-form-input" value="Abbey Road">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Price ($)</label>
+                    <input type="number" step="0.01" class="modal-form-input" value="24.99">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Stock</label>
+                    <input type="number" class="modal-form-input" value="15">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Genre</label>
+                    <select class="modal-form-input">
+                        <option >Pop</option>
+                        <option selected>Rock</option>
+                        <option >Reggaeton</option>
+                        <option >K-Pop</option>
+                        <option >R&B</option>
+                        <option >Jazz</option>
+                        <option >Electronica</option>
+                        <option >Hip-Hop</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Type</label>
+                    <select class="modal-form-input">
+                        <option selected>Vinyl</option>
+                        <option >CD</option>
+                        <option >Cassette</option>
+                        <option >Merchandise</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="modal-form-label">Image URL</label>
+                    <input type="text" class="modal-form-input" value="https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Release Date</label>
+                    <input type="date" class="modal-form-input" value="1969-09-26">
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                  <button type="button" class="btn-modal-delete"
+                          onclick="return confirm('Delete this product?')">
+                    <i class="bi bi-trash me-1"></i> Delete
+                  </button>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modal-save">
+                      <i class="bi bi-check-lg me-1"></i> Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-col"
+             data-nombre="Thank U, Next"
+             data-genero="Pop"
+             data-tipo="CD">
+          <div class="product-card">
+
+            <!-- Wishlist button -->
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">
+              <i class="bi bi-heart"></i>
+            </button>
+
+            <img src="https://upload.wikimedia.org/wikipedia/en/d/dd/Thank_U%2C_Next_album_cover.png" alt="Thank U, Next"
+                 onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+
+            <div class="product-card-body">
+              <div class="product-title">Thank U, Next</div>
+              <div class="product-artist">Ariana Grande</div>
+              <div class="product-price">$19.99</div>
+              <div class="product-meta">
+                <span class="badge-genre">Pop</span>
+                <span class="badge-type">CD</span>
+              </div>
+              <div class="product-actions">
+                <button class="btn-view"
+                        data-bs-toggle="modal"
+                        data-bs-target="#viewModal2">
+                  <i class="bi bi-eye me-1"></i> View
+                </button>
+                <button class="btn-cart">
+                  <i class="bi bi-cart-plus me-1"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW MODAL -->
+        <div class="modal fade" id="viewModal2" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="row g-0">
+                <div class="col-md-5"
+                     style="background: url('https://upload.wikimedia.org/wikipedia/en/d/dd/Thank_U%2C_Next_album_cover.png') center/cover no-repeat; min-height: 400px; border-radius: 16px 0 0 16px;">
+                </div>
+                <div class="col-md-7 p-4 d-flex flex-column justify-content-center">
+                  <button type="button" class="btn-close mb-3 align-self-end"
+                          data-bs-dismiss="modal" style="filter:none;"></button>
+                  <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:#1a1a1a; margin-bottom:1.25rem;">
+                    Thank U, Next
+                  </h3>
+                  <div class="modal-detail-label">Artist</div>
+                  <div class="modal-detail-value">Ariana Grande</div>
+                  <div class="modal-detail-label">Album</div>
+                  <div class="modal-detail-value">Thank U, Next</div>
+                  <div class="modal-detail-label">Price</div>
+                  <div class="modal-detail-value" style="color:#c9a96e;">$19.99</div>
+                  <div class="modal-detail-label">Stock</div>
+                  <div class="modal-detail-value">22 units</div>
+                  <div class="modal-detail-label">Genre</div>
+                  <div class="modal-detail-value">Pop</div>
+                  <div class="modal-detail-label">Type</div>
+                  <div class="modal-detail-value">CD</div>
+                  <div class="modal-detail-label">Release Date</div>
+                  <div class="modal-detail-value">2019-02-08</div>
+                  <div class="d-flex gap-2 mt-2">
+                    <button class="btn-cart" style="flex:1;">
+                      <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                    </button>
+                    <button class="btn-view" style="flex:1;" data-bs-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDIT MODAL -->
+        <div class="modal fade" id="editModal2" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  <i class="bi bi-pencil-square me-2" style="color:#c9a96e;"></i>Edit Product
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Name</label>
+                    <input type="text" class="modal-form-input" value="Thank U, Next" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Artist</label>
+                    <input type="text" class="modal-form-input" value="Ariana Grande">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Album</label>
+                    <input type="text" class="modal-form-input" value="Thank U, Next">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Price ($)</label>
+                    <input type="number" step="0.01" class="modal-form-input" value="19.99">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Stock</label>
+                    <input type="number" class="modal-form-input" value="22">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Genre</label>
+                    <select class="modal-form-input">
+                        <option selected>Pop</option>
+                        <option >Rock</option>
+                        <option >Reggaeton</option>
+                        <option >K-Pop</option>
+                        <option >R&B</option>
+                        <option >Jazz</option>
+                        <option >Electronica</option>
+                        <option >Hip-Hop</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Type</label>
+                    <select class="modal-form-input">
+                        <option >Vinyl</option>
+                        <option selected>CD</option>
+                        <option >Cassette</option>
+                        <option >Merchandise</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="modal-form-label">Image URL</label>
+                    <input type="text" class="modal-form-input" value="https://upload.wikimedia.org/wikipedia/en/d/dd/Thank_U%2C_Next_album_cover.png">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Release Date</label>
+                    <input type="date" class="modal-form-input" value="2019-02-08">
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                  <button type="button" class="btn-modal-delete"
+                          onclick="return confirm('Delete this product?')">
+                    <i class="bi bi-trash me-1"></i> Delete
+                  </button>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modal-save">
+                      <i class="bi bi-check-lg me-1"></i> Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-col"
+             data-nombre="Dynamite"
+             data-genero="K-Pop"
+             data-tipo="CD">
+          <div class="product-card">
+
+            <!-- Wishlist button -->
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">
+              <i class="bi bi-heart"></i>
+            </button>
+
+            <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/BTS_-_Dynamite.png" alt="Dynamite"
+                 onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+
+            <div class="product-card-body">
+              <div class="product-title">Dynamite</div>
+              <div class="product-artist">BTS</div>
+              <div class="product-price">$21.99</div>
+              <div class="product-meta">
+                <span class="badge-genre">K-Pop</span>
+                <span class="badge-type">CD</span>
+              </div>
+              <div class="product-actions">
+                <button class="btn-view"
+                        data-bs-toggle="modal"
+                        data-bs-target="#viewModal3">
+                  <i class="bi bi-eye me-1"></i> View
+                </button>
+                <button class="btn-cart">
+                  <i class="bi bi-cart-plus me-1"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW MODAL -->
+        <div class="modal fade" id="viewModal3" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="row g-0">
+                <div class="col-md-5"
+                     style="background: url('https://upload.wikimedia.org/wikipedia/en/7/7a/BTS_-_Dynamite.png') center/cover no-repeat; min-height: 400px; border-radius: 16px 0 0 16px;">
+                </div>
+                <div class="col-md-7 p-4 d-flex flex-column justify-content-center">
+                  <button type="button" class="btn-close mb-3 align-self-end"
+                          data-bs-dismiss="modal" style="filter:none;"></button>
+                  <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:#1a1a1a; margin-bottom:1.25rem;">
+                    Dynamite
+                  </h3>
+                  <div class="modal-detail-label">Artist</div>
+                  <div class="modal-detail-value">BTS</div>
+                  <div class="modal-detail-label">Album</div>
+                  <div class="modal-detail-value">Dynamite</div>
+                  <div class="modal-detail-label">Price</div>
+                  <div class="modal-detail-value" style="color:#c9a96e;">$21.99</div>
+                  <div class="modal-detail-label">Stock</div>
+                  <div class="modal-detail-value">40 units</div>
+                  <div class="modal-detail-label">Genre</div>
+                  <div class="modal-detail-value">K-Pop</div>
+                  <div class="modal-detail-label">Type</div>
+                  <div class="modal-detail-value">CD</div>
+                  <div class="modal-detail-label">Release Date</div>
+                  <div class="modal-detail-value">2020-08-21</div>
+                  <div class="d-flex gap-2 mt-2">
+                    <button class="btn-cart" style="flex:1;">
+                      <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                    </button>
+                    <button class="btn-view" style="flex:1;" data-bs-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDIT MODAL -->
+        <div class="modal fade" id="editModal3" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  <i class="bi bi-pencil-square me-2" style="color:#c9a96e;"></i>Edit Product
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Name</label>
+                    <input type="text" class="modal-form-input" value="Dynamite" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Artist</label>
+                    <input type="text" class="modal-form-input" value="BTS">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Album</label>
+                    <input type="text" class="modal-form-input" value="Dynamite">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Price ($)</label>
+                    <input type="number" step="0.01" class="modal-form-input" value="21.99">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Stock</label>
+                    <input type="number" class="modal-form-input" value="40">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Genre</label>
+                    <select class="modal-form-input">
+                        <option >Pop</option>
+                        <option >Rock</option>
+                        <option >Reggaeton</option>
+                        <option selected>K-Pop</option>
+                        <option >R&B</option>
+                        <option >Jazz</option>
+                        <option >Electronica</option>
+                        <option >Hip-Hop</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Type</label>
+                    <select class="modal-form-input">
+                        <option >Vinyl</option>
+                        <option selected>CD</option>
+                        <option >Cassette</option>
+                        <option >Merchandise</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="modal-form-label">Image URL</label>
+                    <input type="text" class="modal-form-input" value="https://upload.wikimedia.org/wikipedia/en/7/7a/BTS_-_Dynamite.png">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Release Date</label>
+                    <input type="date" class="modal-form-input" value="2020-08-21">
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                  <button type="button" class="btn-modal-delete"
+                          onclick="return confirm('Delete this product?')">
+                    <i class="bi bi-trash me-1"></i> Delete
+                  </button>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modal-save">
+                      <i class="bi bi-check-lg me-1"></i> Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-col"
+             data-nombre="Sweetener"
+             data-genero="Pop"
+             data-tipo="Vinyl">
+          <div class="product-card">
+
+            <!-- Wishlist button -->
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">
+              <i class="bi bi-heart"></i>
+            </button>
+
+            <img src="https://upload.wikimedia.org/wikipedia/en/a/a3/Sweetener_album_cover.png" alt="Sweetener"
+                 onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+
+            <div class="product-card-body">
+              <div class="product-title">Sweetener</div>
+              <div class="product-artist">Ariana Grande</div>
+              <div class="product-price">$18.99</div>
+              <div class="product-meta">
+                <span class="badge-genre">Pop</span>
+                <span class="badge-type">Vinyl</span>
+              </div>
+              <div class="product-actions">
+                <button class="btn-view"
+                        data-bs-toggle="modal"
+                        data-bs-target="#viewModal4">
+                  <i class="bi bi-eye me-1"></i> View
+                </button>
+                <button class="btn-cart">
+                  <i class="bi bi-cart-plus me-1"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW MODAL -->
+        <div class="modal fade" id="viewModal4" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="row g-0">
+                <div class="col-md-5"
+                     style="background: url('https://upload.wikimedia.org/wikipedia/en/a/a3/Sweetener_album_cover.png') center/cover no-repeat; min-height: 400px; border-radius: 16px 0 0 16px;">
+                </div>
+                <div class="col-md-7 p-4 d-flex flex-column justify-content-center">
+                  <button type="button" class="btn-close mb-3 align-self-end"
+                          data-bs-dismiss="modal" style="filter:none;"></button>
+                  <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:#1a1a1a; margin-bottom:1.25rem;">
+                    Sweetener
+                  </h3>
+                  <div class="modal-detail-label">Artist</div>
+                  <div class="modal-detail-value">Ariana Grande</div>
+                  <div class="modal-detail-label">Album</div>
+                  <div class="modal-detail-value">Sweetener</div>
+                  <div class="modal-detail-label">Price</div>
+                  <div class="modal-detail-value" style="color:#c9a96e;">$18.99</div>
+                  <div class="modal-detail-label">Stock</div>
+                  <div class="modal-detail-value">10 units</div>
+                  <div class="modal-detail-label">Genre</div>
+                  <div class="modal-detail-value">Pop</div>
+                  <div class="modal-detail-label">Type</div>
+                  <div class="modal-detail-value">Vinyl</div>
+                  <div class="modal-detail-label">Release Date</div>
+                  <div class="modal-detail-value">2018-08-17</div>
+                  <div class="d-flex gap-2 mt-2">
+                    <button class="btn-cart" style="flex:1;">
+                      <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                    </button>
+                    <button class="btn-view" style="flex:1;" data-bs-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDIT MODAL -->
+        <div class="modal fade" id="editModal4" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  <i class="bi bi-pencil-square me-2" style="color:#c9a96e;"></i>Edit Product
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Name</label>
+                    <input type="text" class="modal-form-input" value="Sweetener" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Artist</label>
+                    <input type="text" class="modal-form-input" value="Ariana Grande">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Album</label>
+                    <input type="text" class="modal-form-input" value="Sweetener">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Price ($)</label>
+                    <input type="number" step="0.01" class="modal-form-input" value="18.99">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Stock</label>
+                    <input type="number" class="modal-form-input" value="10">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Genre</label>
+                    <select class="modal-form-input">
+                        <option selected>Pop</option>
+                        <option >Rock</option>
+                        <option >Reggaeton</option>
+                        <option >K-Pop</option>
+                        <option >R&B</option>
+                        <option >Jazz</option>
+                        <option >Electronica</option>
+                        <option >Hip-Hop</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Type</label>
+                    <select class="modal-form-input">
+                        <option selected>Vinyl</option>
+                        <option >CD</option>
+                        <option >Cassette</option>
+                        <option >Merchandise</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="modal-form-label">Image URL</label>
+                    <input type="text" class="modal-form-input" value="https://upload.wikimedia.org/wikipedia/en/a/a3/Sweetener_album_cover.png">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Release Date</label>
+                    <input type="date" class="modal-form-input" value="2018-08-17">
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                  <button type="button" class="btn-modal-delete"
+                          onclick="return confirm('Delete this product?')">
+                    <i class="bi bi-trash me-1"></i> Delete
+                  </button>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modal-save">
+                      <i class="bi bi-check-lg me-1"></i> Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-col"
+             data-nombre="Ditto"
+             data-genero="K-Pop"
+             data-tipo="CD">
+          <div class="product-card">
+
+            <!-- Wishlist button -->
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">
+              <i class="bi bi-heart"></i>
+            </button>
+
+            <img src="https://upload.wikimedia.org/wikipedia/en/9/9c/NewJeans_-_Ditto.png" alt="Ditto"
+                 onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+
+            <div class="product-card-body">
+              <div class="product-title">Ditto</div>
+              <div class="product-artist">NewJeans</div>
+              <div class="product-price">$22.5</div>
+              <div class="product-meta">
+                <span class="badge-genre">K-Pop</span>
+                <span class="badge-type">CD</span>
+              </div>
+              <div class="product-actions">
+                <button class="btn-view"
+                        data-bs-toggle="modal"
+                        data-bs-target="#viewModal5">
+                  <i class="bi bi-eye me-1"></i> View
+                </button>
+                <button class="btn-cart">
+                  <i class="bi bi-cart-plus me-1"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW MODAL -->
+        <div class="modal fade" id="viewModal5" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="row g-0">
+                <div class="col-md-5"
+                     style="background: url('https://upload.wikimedia.org/wikipedia/en/9/9c/NewJeans_-_Ditto.png') center/cover no-repeat; min-height: 400px; border-radius: 16px 0 0 16px;">
+                </div>
+                <div class="col-md-7 p-4 d-flex flex-column justify-content-center">
+                  <button type="button" class="btn-close mb-3 align-self-end"
+                          data-bs-dismiss="modal" style="filter:none;"></button>
+                  <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:#1a1a1a; margin-bottom:1.25rem;">
+                    Ditto
+                  </h3>
+                  <div class="modal-detail-label">Artist</div>
+                  <div class="modal-detail-value">NewJeans</div>
+                  <div class="modal-detail-label">Album</div>
+                  <div class="modal-detail-value">Ditto</div>
+                  <div class="modal-detail-label">Price</div>
+                  <div class="modal-detail-value" style="color:#c9a96e;">$22.5</div>
+                  <div class="modal-detail-label">Stock</div>
+                  <div class="modal-detail-value">30 units</div>
+                  <div class="modal-detail-label">Genre</div>
+                  <div class="modal-detail-value">K-Pop</div>
+                  <div class="modal-detail-label">Type</div>
+                  <div class="modal-detail-value">CD</div>
+                  <div class="modal-detail-label">Release Date</div>
+                  <div class="modal-detail-value">2022-12-19</div>
+                  <div class="d-flex gap-2 mt-2">
+                    <button class="btn-cart" style="flex:1;">
+                      <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                    </button>
+                    <button class="btn-view" style="flex:1;" data-bs-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDIT MODAL -->
+        <div class="modal fade" id="editModal5" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  <i class="bi bi-pencil-square me-2" style="color:#c9a96e;"></i>Edit Product
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Name</label>
+                    <input type="text" class="modal-form-input" value="Ditto" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Artist</label>
+                    <input type="text" class="modal-form-input" value="NewJeans">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Album</label>
+                    <input type="text" class="modal-form-input" value="Ditto">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Price ($)</label>
+                    <input type="number" step="0.01" class="modal-form-input" value="22.5">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Stock</label>
+                    <input type="number" class="modal-form-input" value="30">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Genre</label>
+                    <select class="modal-form-input">
+                        <option >Pop</option>
+                        <option >Rock</option>
+                        <option >Reggaeton</option>
+                        <option selected>K-Pop</option>
+                        <option >R&B</option>
+                        <option >Jazz</option>
+                        <option >Electronica</option>
+                        <option >Hip-Hop</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Type</label>
+                    <select class="modal-form-input">
+                        <option >Vinyl</option>
+                        <option selected>CD</option>
+                        <option >Cassette</option>
+                        <option >Merchandise</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="modal-form-label">Image URL</label>
+                    <input type="text" class="modal-form-input" value="https://upload.wikimedia.org/wikipedia/en/9/9c/NewJeans_-_Ditto.png">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Release Date</label>
+                    <input type="date" class="modal-form-input" value="2022-12-19">
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                  <button type="button" class="btn-modal-delete"
+                          onclick="return confirm('Delete this product?')">
+                    <i class="bi bi-trash me-1"></i> Delete
+                  </button>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modal-save">
+                      <i class="bi bi-check-lg me-1"></i> Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-col"
+             data-nombre="Un Verano Sin Ti"
+             data-genero="Reggaeton"
+             data-tipo="Vinyl">
+          <div class="product-card">
+
+            <!-- Wishlist button -->
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">
+              <i class="bi bi-heart"></i>
+            </button>
+
+            <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/Bad_Bunny_-_Un_Verano_Sin_Ti.png" alt="Un Verano Sin Ti"
+                 onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+
+            <div class="product-card-body">
+              <div class="product-title">Un Verano Sin Ti</div>
+              <div class="product-artist">Bad Bunny</div>
+              <div class="product-price">$23.99</div>
+              <div class="product-meta">
+                <span class="badge-genre">Reggaeton</span>
+                <span class="badge-type">Vinyl</span>
+              </div>
+              <div class="product-actions">
+                <button class="btn-view"
+                        data-bs-toggle="modal"
+                        data-bs-target="#viewModal6">
+                  <i class="bi bi-eye me-1"></i> View
+                </button>
+                <button class="btn-cart">
+                  <i class="bi bi-cart-plus me-1"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW MODAL -->
+        <div class="modal fade" id="viewModal6" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="row g-0">
+                <div class="col-md-5"
+                     style="background: url('https://upload.wikimedia.org/wikipedia/en/1/1c/Bad_Bunny_-_Un_Verano_Sin_Ti.png') center/cover no-repeat; min-height: 400px; border-radius: 16px 0 0 16px;">
+                </div>
+                <div class="col-md-7 p-4 d-flex flex-column justify-content-center">
+                  <button type="button" class="btn-close mb-3 align-self-end"
+                          data-bs-dismiss="modal" style="filter:none;"></button>
+                  <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:#1a1a1a; margin-bottom:1.25rem;">
+                    Un Verano Sin Ti
+                  </h3>
+                  <div class="modal-detail-label">Artist</div>
+                  <div class="modal-detail-value">Bad Bunny</div>
+                  <div class="modal-detail-label">Album</div>
+                  <div class="modal-detail-value">Un Verano Sin Ti</div>
+                  <div class="modal-detail-label">Price</div>
+                  <div class="modal-detail-value" style="color:#c9a96e;">$23.99</div>
+                  <div class="modal-detail-label">Stock</div>
+                  <div class="modal-detail-value">18 units</div>
+                  <div class="modal-detail-label">Genre</div>
+                  <div class="modal-detail-value">Reggaeton</div>
+                  <div class="modal-detail-label">Type</div>
+                  <div class="modal-detail-value">Vinyl</div>
+                  <div class="modal-detail-label">Release Date</div>
+                  <div class="modal-detail-value">2022-05-06</div>
+                  <div class="d-flex gap-2 mt-2">
+                    <button class="btn-cart" style="flex:1;">
+                      <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                    </button>
+                    <button class="btn-view" style="flex:1;" data-bs-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDIT MODAL -->
+        <div class="modal fade" id="editModal6" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  <i class="bi bi-pencil-square me-2" style="color:#c9a96e;"></i>Edit Product
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Name</label>
+                    <input type="text" class="modal-form-input" value="Un Verano Sin Ti" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Artist</label>
+                    <input type="text" class="modal-form-input" value="Bad Bunny">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Album</label>
+                    <input type="text" class="modal-form-input" value="Un Verano Sin Ti">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Price ($)</label>
+                    <input type="number" step="0.01" class="modal-form-input" value="23.99">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Stock</label>
+                    <input type="number" class="modal-form-input" value="18">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Genre</label>
+                    <select class="modal-form-input">
+                        <option >Pop</option>
+                        <option >Rock</option>
+                        <option selected>Reggaeton</option>
+                        <option >K-Pop</option>
+                        <option >R&B</option>
+                        <option >Jazz</option>
+                        <option >Electronica</option>
+                        <option >Hip-Hop</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Type</label>
+                    <select class="modal-form-input">
+                        <option selected>Vinyl</option>
+                        <option >CD</option>
+                        <option >Cassette</option>
+                        <option >Merchandise</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="modal-form-label">Image URL</label>
+                    <input type="text" class="modal-form-input" value="https://upload.wikimedia.org/wikipedia/en/1/1c/Bad_Bunny_-_Un_Verano_Sin_Ti.png">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Release Date</label>
+                    <input type="date" class="modal-form-input" value="2022-05-06">
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                  <button type="button" class="btn-modal-delete"
+                          onclick="return confirm('Delete this product?')">
+                    <i class="bi bi-trash me-1"></i> Delete
+                  </button>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modal-save">
+                      <i class="bi bi-check-lg me-1"></i> Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-col"
+             data-nombre="Midnights"
+             data-genero="Pop"
+             data-tipo="Vinyl">
+          <div class="product-card">
+
+            <!-- Wishlist button -->
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">
+              <i class="bi bi-heart"></i>
+            </button>
+
+            <img src="https://upload.wikimedia.org/wikipedia/en/9/9f/Midnights_-_Taylor_Swift.png" alt="Midnights"
+                 onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+
+            <div class="product-card-body">
+              <div class="product-title">Midnights</div>
+              <div class="product-artist">Taylor Swift</div>
+              <div class="product-price">$26.99</div>
+              <div class="product-meta">
+                <span class="badge-genre">Pop</span>
+                <span class="badge-type">Vinyl</span>
+              </div>
+              <div class="product-actions">
+                <button class="btn-view"
+                        data-bs-toggle="modal"
+                        data-bs-target="#viewModal7">
+                  <i class="bi bi-eye me-1"></i> View
+                </button>
+                <button class="btn-cart">
+                  <i class="bi bi-cart-plus me-1"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW MODAL -->
+        <div class="modal fade" id="viewModal7" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="row g-0">
+                <div class="col-md-5"
+                     style="background: url('https://upload.wikimedia.org/wikipedia/en/9/9f/Midnights_-_Taylor_Swift.png') center/cover no-repeat; min-height: 400px; border-radius: 16px 0 0 16px;">
+                </div>
+                <div class="col-md-7 p-4 d-flex flex-column justify-content-center">
+                  <button type="button" class="btn-close mb-3 align-self-end"
+                          data-bs-dismiss="modal" style="filter:none;"></button>
+                  <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:#1a1a1a; margin-bottom:1.25rem;">
+                    Midnights
+                  </h3>
+                  <div class="modal-detail-label">Artist</div>
+                  <div class="modal-detail-value">Taylor Swift</div>
+                  <div class="modal-detail-label">Album</div>
+                  <div class="modal-detail-value">Midnights</div>
+                  <div class="modal-detail-label">Price</div>
+                  <div class="modal-detail-value" style="color:#c9a96e;">$26.99</div>
+                  <div class="modal-detail-label">Stock</div>
+                  <div class="modal-detail-value">25 units</div>
+                  <div class="modal-detail-label">Genre</div>
+                  <div class="modal-detail-value">Pop</div>
+                  <div class="modal-detail-label">Type</div>
+                  <div class="modal-detail-value">Vinyl</div>
+                  <div class="modal-detail-label">Release Date</div>
+                  <div class="modal-detail-value">2022-10-21</div>
+                  <div class="d-flex gap-2 mt-2">
+                    <button class="btn-cart" style="flex:1;">
+                      <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                    </button>
+                    <button class="btn-view" style="flex:1;" data-bs-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDIT MODAL -->
+        <div class="modal fade" id="editModal7" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  <i class="bi bi-pencil-square me-2" style="color:#c9a96e;"></i>Edit Product
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Name</label>
+                    <input type="text" class="modal-form-input" value="Midnights" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Artist</label>
+                    <input type="text" class="modal-form-input" value="Taylor Swift">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Album</label>
+                    <input type="text" class="modal-form-input" value="Midnights">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Price ($)</label>
+                    <input type="number" step="0.01" class="modal-form-input" value="26.99">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Stock</label>
+                    <input type="number" class="modal-form-input" value="25">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Genre</label>
+                    <select class="modal-form-input">
+                        <option selected>Pop</option>
+                        <option >Rock</option>
+                        <option >Reggaeton</option>
+                        <option >K-Pop</option>
+                        <option >R&B</option>
+                        <option >Jazz</option>
+                        <option >Electronica</option>
+                        <option >Hip-Hop</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Type</label>
+                    <select class="modal-form-input">
+                        <option selected>Vinyl</option>
+                        <option >CD</option>
+                        <option >Cassette</option>
+                        <option >Merchandise</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="modal-form-label">Image URL</label>
+                    <input type="text" class="modal-form-input" value="https://upload.wikimedia.org/wikipedia/en/9/9f/Midnights_-_Taylor_Swift.png">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Release Date</label>
+                    <input type="date" class="modal-form-input" value="2022-10-21">
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                  <button type="button" class="btn-modal-delete"
+                          onclick="return confirm('Delete this product?')">
+                    <i class="bi bi-trash me-1"></i> Delete
+                  </button>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modal-save">
+                      <i class="bi bi-check-lg me-1"></i> Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 product-col"
+             data-nombre="After Hours"
+             data-genero="R&B"
+             data-tipo="CD">
+          <div class="product-card">
+
+            <!-- Wishlist button -->
+            <button class="wishlist-btn" onclick="toggleWishlist(this)">
+              <i class="bi bi-heart"></i>
+            </button>
+
+            <img src="https://upload.wikimedia.org/wikipedia/en/c/c1/The_Weeknd_-_After_Hours.png" alt="After Hours"
+                 onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+
+            <div class="product-card-body">
+              <div class="product-title">After Hours</div>
+              <div class="product-artist">The Weeknd</div>
+              <div class="product-price">$20.99</div>
+              <div class="product-meta">
+                <span class="badge-genre">R&B</span>
+                <span class="badge-type">CD</span>
+              </div>
+              <div class="product-actions">
+                <button class="btn-view"
+                        data-bs-toggle="modal"
+                        data-bs-target="#viewModal8">
+                  <i class="bi bi-eye me-1"></i> View
+                </button>
+                <button class="btn-cart">
+                  <i class="bi bi-cart-plus me-1"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW MODAL -->
+        <div class="modal fade" id="viewModal8" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="row g-0">
+                <div class="col-md-5"
+                     style="background: url('https://upload.wikimedia.org/wikipedia/en/c/c1/The_Weeknd_-_After_Hours.png') center/cover no-repeat; min-height: 400px; border-radius: 16px 0 0 16px;">
+                </div>
+                <div class="col-md-7 p-4 d-flex flex-column justify-content-center">
+                  <button type="button" class="btn-close mb-3 align-self-end"
+                          data-bs-dismiss="modal" style="filter:none;"></button>
+                  <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:#1a1a1a; margin-bottom:1.25rem;">
+                    After Hours
+                  </h3>
+                  <div class="modal-detail-label">Artist</div>
+                  <div class="modal-detail-value">The Weeknd</div>
+                  <div class="modal-detail-label">Album</div>
+                  <div class="modal-detail-value">After Hours</div>
+                  <div class="modal-detail-label">Price</div>
+                  <div class="modal-detail-value" style="color:#c9a96e;">$20.99</div>
+                  <div class="modal-detail-label">Stock</div>
+                  <div class="modal-detail-value">14 units</div>
+                  <div class="modal-detail-label">Genre</div>
+                  <div class="modal-detail-value">R&B</div>
+                  <div class="modal-detail-label">Type</div>
+                  <div class="modal-detail-value">CD</div>
+                  <div class="modal-detail-label">Release Date</div>
+                  <div class="modal-detail-value">2020-03-20</div>
+                  <div class="d-flex gap-2 mt-2">
+                    <button class="btn-cart" style="flex:1;">
+                      <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                    </button>
+                    <button class="btn-view" style="flex:1;" data-bs-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDIT MODAL -->
+        <div class="modal fade" id="editModal8" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  <i class="bi bi-pencil-square me-2" style="color:#c9a96e;"></i>Edit Product
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Name</label>
+                    <input type="text" class="modal-form-input" value="After Hours" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Artist</label>
+                    <input type="text" class="modal-form-input" value="The Weeknd">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Album</label>
+                    <input type="text" class="modal-form-input" value="After Hours">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Price ($)</label>
+                    <input type="number" step="0.01" class="modal-form-input" value="20.99">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="modal-form-label">Stock</label>
+                    <input type="number" class="modal-form-input" value="14">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Genre</label>
+                    <select class="modal-form-input">
+                        <option >Pop</option>
+                        <option >Rock</option>
+                        <option >Reggaeton</option>
+                        <option >K-Pop</option>
+                        <option selected>R&B</option>
+                        <option >Jazz</option>
+                        <option >Electronica</option>
+                        <option >Hip-Hop</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Type</label>
+                    <select class="modal-form-input">
+                        <option >Vinyl</option>
+                        <option selected>CD</option>
+                        <option >Cassette</option>
+                        <option >Merchandise</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="modal-form-label">Image URL</label>
+                    <input type="text" class="modal-form-input" value="https://upload.wikimedia.org/wikipedia/en/c/c1/The_Weeknd_-_After_Hours.png">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="modal-form-label">Release Date</label>
+                    <input type="date" class="modal-form-input" value="2020-03-20">
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                  <button type="button" class="btn-modal-delete"
+                          onclick="return confirm('Delete this product?')">
+                    <i class="bi bi-trash me-1"></i> Delete
+                  </button>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-modal-save">
+                      <i class="bi bi-check-lg me-1"></i> Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- CREATE PRODUCT MODAL -->
+<div class="modal fade" id="createProductModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-plus-circle me-2" style="color:#c9a96e;"></i>Add Product
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="modal-form-label">Name</label>
+            <input type="text" class="modal-form-input" placeholder="Product name">
+          </div>
+          <div class="col-md-6">
+            <label class="modal-form-label">Artist</label>
+            <input type="text" class="modal-form-input" placeholder="Artist name">
+          </div>
+          <div class="col-md-6">
+            <label class="modal-form-label">Album</label>
+            <input type="text" class="modal-form-input" placeholder="Album name">
+          </div>
+          <div class="col-md-3">
+            <label class="modal-form-label">Price ($)</label>
+            <input type="number" step="0.01" class="modal-form-input" placeholder="0.00">
+          </div>
+          <div class="col-md-3">
+            <label class="modal-form-label">Stock</label>
+            <input type="number" class="modal-form-input" placeholder="0">
+          </div>
+          <div class="col-md-6">
+            <label class="modal-form-label">Genre</label>
+            <select class="modal-form-input">
+              <option value="">Select genre...</option>
+                <option>Pop</option>
+                <option>Rock</option>
+                <option>Reggaeton</option>
+                <option>K-Pop</option>
+                <option>R&B</option>
+                <option>Jazz</option>
+                <option>Electronica</option>
+                <option>Hip-Hop</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="modal-form-label">Type</label>
+            <select class="modal-form-input">
+              <option value="">Select type...</option>
+                <option>Vinyl</option>
+                <option>CD</option>
+                <option>Cassette</option>
+                <option>Merchandise</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="modal-form-label">Image URL</label>
+            <input type="text" class="modal-form-input" placeholder="https://...">
+          </div>
+          <div class="col-md-6">
+            <label class="modal-form-label">Release Date</label>
+            <input type="date" class="modal-form-input">
+          </div>
+        </div>
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn-modal-save">
+            <i class="bi bi-check-lg me-1"></i> Save Product
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+
+      <div class="col-md-3">
+        <div class="footer-brand">Hikari's <span>Records</span></div>
+        <p style="font-size:13px; color:#666; margin-top:8px; padding:0;">Tu destino de música y cultura pop.</p>
+        <div class="footer-social mt-3">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <h6>Métodos de pago</h6>
+          <div>Paypal: hikaris@gmail.com</div>
+          <div>Iban CR72010200009119</div>
+          <div>Customer account 102000091197</div>
+      </div>
+
+      <div class="col-md-3">
+        <h6>Ubicación</h6>
+          <div>Country: USA</div>
+          <div>California Street</div>
+      </div>
+
+      <div class="col-md-3">
+        <h6>Contacto</h6>
+          <div>Whatsapp: 8604-1107</div>
+          <div>Facebook: Hikari's Records</div>
+          <div>Instagram: Hikari's Records</div>
+      </div>
+
+    </div>
+
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      © 2026 Hikari's Records — Universidad Nacional, Escuela de Informática, Diseño de Sitios Web, Proyecto 3
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function filterProducts() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const sort   = document.getElementById('sortSelect').value;
+    const genre  = document.getElementById('genreSelect').value.toLowerCase();
+    const type   = document.getElementById('typeSelect').value.toLowerCase();
+    const cols   = Array.from(document.querySelectorAll('.product-col'));
+
+    cols.forEach(col => {
+      const nombre = col.dataset.nombre.toLowerCase();
+      const genero = col.dataset.genero.toLowerCase();
+      const tipo   = col.dataset.tipo.toLowerCase();
+      const matchSearch = nombre.includes(search);
+      const matchGenre  = !genre || genero === genre;
+      const matchType   = !type  || tipo === type;
+      col.style.display = (matchSearch && matchGenre && matchType) ? '' : 'none';
+    });
+
+    if (sort) {
+      const grid    = document.getElementById('productsGrid');
+      const visible = cols.filter(c => c.style.display !== 'none');
+      visible.sort((a, b) => {
+        const na = a.dataset.nombre, nb = b.dataset.nombre;
+        return sort === 'asc' ? na.localeCompare(nb) : nb.localeCompare(na);
+      });
+      visible.forEach(c => grid.appendChild(c));
+    }
+  }
+
+  document.getElementById('searchInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') filterProducts();
+  });
+
+  function toggleWishlist(btn) {
+    const icon = btn.querySelector('i');
+    if (icon.classList.contains('bi-heart')) {
+      icon.classList.replace('bi-heart', 'bi-heart-fill');
+      btn.style.color = '#e74c3c';
+    } else {
+      icon.classList.replace('bi-heart-fill', 'bi-heart');
+      btn.style.color = '';
+    }
+  }
+</script>
+
+</body>
+</html>

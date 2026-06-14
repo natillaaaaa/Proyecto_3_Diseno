@@ -1,0 +1,54 @@
+{
+  "hero": {
+    "titulo": "Hikari's Records",
+    "descripcion": "We are a music company founded in 2020, specialized in the distribution of music from various genres around the world. Currently, we have established ourselves as one of the most prominent digital music platforms in the country."
+  },
+  "seccion": {
+    "titulo": "Why music?",
+    "descripcion": "We believe music is for everyone. Our mission is to make music accessible, promoting artists and helping listeners discover new sounds without limits. Music connects emotions, cultures, and people all over the world."
+  },
+  "valores": [
+    {
+      "icono": "bi-heart-fill",
+      "titulo": "Passion",
+      "descripcion": "We are driven by passion for music. Every track, artist and album is selected with care to ensure quality and emotion.",
+      "color": "#e8c98a"
+    },
+    {
+      "icono": "bi-shield-check",
+      "titulo": "Trust",
+      "descripcion": "We build trust with artists and users by offering transparent systems, fair distribution and reliable service.",
+      "color": "#c9a96e"
+    },
+    {
+      "icono": "bi-lightning-charge-fill",
+      "titulo": "Innovation",
+      "descripcion": "We constantly innovate to improve how people discover, listen and experience music.",
+      "color": "#a07840"
+    }
+  ],
+  "stats": [
+    { "numero": "2020", "label": "Founded" },
+    { "numero": "500+", "label": "Artists" },
+    { "numero": "10K+", "label": "Albums" },
+    { "numero": "50K+", "label": "Listeners" }
+  ],
+  "footer": {
+    "nombre": "Hikari's Records",
+    "logo": "https://cdn-icons-png.flaticon.com/512/92/92027.png",
+    "pagos": [
+      "Paypal: hikaris@gmail.com",
+      "Iban CR72010200009119",
+      "Customer account 102000091197"
+    ],
+    "ubicacion": [
+      "Country: USA",
+      "California Street"
+    ],
+    "contacto": [
+      "Whatsapp: 8604-1107",
+      "Facebook: Hikari's Records",
+      "Instagram: Hikari's Records"
+    ]
+  }
+}

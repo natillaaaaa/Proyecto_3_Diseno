@@ -1,0 +1,47 @@
+{
+  "carousel": [
+    { "index": 0, "src": "https://i.pinimg.com/736x/30/68/ab/3068ab91ed1033702f6c64cc955d2205.jpg", "active": false },
+    { "index": 1, "src": "https://img2.rtve.es/i/?w=1200&i=https://img.rtve.es/imagenes/foto-abbey-road-cumple-50-anos/1565264921818.jpg", "active": true },
+    { "index": 2, "src": "https://www.laxcali.com/uploads/newsarticle/e98ad8ff665e4508b601555ff09f92d7/ariana-grande-on-stall-chair-photography-cl_b3wZ62a.jpg", "active": false },
+    { "index": 3, "src": "https://www.infobae.com/resizer/v2/E73NEXJKIJDDJHI7XPKRUPAH6Q.png?auth=0582aef45efe1475cf5372b646f09d140ca946697ec4dc7f90a49d6d17356e31", "active": false },
+    { "index": 4, "src": "https://media.pitchfork.com/photos/679cccbab742af95ca81e4fe/16:9/w_1280,c_limit/The-Weeknd-Hurry-Up-Tomorrow.jpeg", "active": false }
+  ],
+  "coming_soon": [
+    {
+      "img": "https://imusic.b-cdn.net/images/item/original/266/8800327581266.jpg",
+      "titulo": "BTS Lightstick"
+    },
+    {
+      "img": "https://i.scdn.co/image/ab67616d00001e021a1495ff41046065b9475366",
+      "titulo": "Drop Dead Olivia Rodrigo"
+    },
+    {
+      "img": "https://i.scdn.co/image/ab67616d0000b273bc755429117cac056edd2bf7",
+      "titulo": "The Life of a Showgirl - Taylor Swift"
+    },
+    {
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4eYTpqw-hYM1rGc0lOtduwxcD9BHmcWEB8w&s",
+      "titulo": "DtMF - Bad Bunny"
+    }
+  ],
+  "slider_texto": "Whatsapp: 8604-1107",
+  "slider_repeticiones": [1,2,3,4,5,6,7,8,9,10],
+  "footer": {
+    "nombre": "Hikari's Records",
+    "logo": "https://cdn-icons-png.flaticon.com/512/92/92027.png",
+    "pagos": [
+      "Paypal: hikaris@gmail.com",
+      "Iban CR72010200009119",
+      "Customer account 102000091197"
+    ],
+    "ubicacion": [
+      "Country: USA",
+      "California Street"
+    ],
+    "contacto": [
+      "Whatsapp: 8604-1107",
+      "Facebook: Hikari's Records",
+      "Instagram: Hikari's Records"
+    ]
+  }
+}

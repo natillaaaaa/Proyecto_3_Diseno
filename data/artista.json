@@ -1,0 +1,54 @@
+{
+  "sellos": [
+    { "selloDiscograficoID": 1, "nombre": "Sony Music" },
+    { "selloDiscograficoID": 2, "nombre": "Universal Music" },
+    { "selloDiscograficoID": 3, "nombre": "Warner Music" }
+  ],
+  "artistas": [
+    {
+      "artistaID": 1, "nombre": "Shakira", "nacionalidad": "Colombiana",
+      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Shakira_-_Can%27t_Remember_to_Forget_You_%28Feat._Rihanna%29_%28Official_Video%29_-_YouTube_%28crop%29.jpg/440px-Shakira_-_Can%27t_Remember_to_Forget_You_%28Feat._Rihanna%29_%28Official_Video%29_-_YouTube_%28crop%29.jpg",
+      "selloDiscografico": { "selloDiscograficoID": 2, "nombre": "Universal Music" }
+    },
+    {
+      "artistaID": 2, "nombre": "Bad Bunny", "nacionalidad": "Puertorriqueño",
+      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Bad_Bunny_2020_crop.jpg/440px-Bad_Bunny_2020_crop.jpg",
+      "selloDiscografico": { "selloDiscograficoID": 1, "nombre": "Sony Music" }
+    },
+    {
+      "artistaID": 3, "nombre": "Dua Lipa", "nacionalidad": "Británica",
+      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Dua_Lipa_2024.jpg/440px-Dua_Lipa_2024.jpg",
+      "selloDiscografico": { "selloDiscograficoID": 3, "nombre": "Warner Music" }
+    },
+    {
+      "artistaID": 4, "nombre": "Karol G", "nacionalidad": "Colombiana",
+      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Karol_G_2023_%28cropped%29.jpg/440px-Karol_G_2023_%28cropped%29.jpg",
+      "selloDiscografico": { "selloDiscograficoID": 1, "nombre": "Sony Music" }
+    },
+    {
+      "artistaID": 5, "nombre": "The Weeknd", "nacionalidad": "Canadiense",
+      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/The_Weeknd_2021.png/440px-The_Weeknd_2021.png",
+      "selloDiscografico": { "selloDiscograficoID": 3, "nombre": "Warner Music" }
+    },
+    {
+      "artistaID": 6, "nombre": "Taylor Swift", "nacionalidad": "Estadounidense",
+      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/191125_Taylor_Swift_at_the_2019_American_Music_Awards_%28cropped%29.png/440px-191125_Taylor_Swift_at_the_2019_American_Music_Awards_%28cropped%29.png",
+      "selloDiscografico": { "selloDiscograficoID": 1, "nombre": "Sony Music" }
+    },
+    {
+      "artistaID": 7, "nombre": "BTS", "nacionalidad": "Surcoreana",
+      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/BTS_at_the_White_House_%28cropped%29.jpg/440px-BTS_at_the_White_House_%28cropped%29.jpg",
+      "selloDiscografico": { "selloDiscograficoID": 2, "nombre": "Universal Music" }
+    },
+    {
+      "artistaID": 8, "nombre": "Olivia Rodrigo", "nacionalidad": "Estadounidense",
+      "foto": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Olivia_Rodrigo_2022_%28cropped%29.jpg/440px-Olivia_Rodrigo_2022_%28cropped%29.jpg",
+      "selloDiscografico": { "selloDiscograficoID": 2, "nombre": "Universal Music" }
+    }
+  ],
+  "footer": {
+    "pagos":     ["Paypal: hikaris@gmail.com","Iban CR72010200009119","Customer account 102000091197"],
+    "ubicacion": ["Country: USA","California Street"],
+    "contacto":  ["Whatsapp: 8604-1107","Facebook: Hikari's Records","Instagram: Hikari's Records"]
+  }
+}

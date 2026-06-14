@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title }} — Hikari's Records</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #fafafa; color: #1a1a1a; }
+
+    /* TOP BAR */
+    .top-bar { background: #1a1a1a; color: #ccc; font-size: 12px; padding: 6px 0; letter-spacing: 0.5px; }
+    .top-bar a { color: #ccc; text-decoration: none; }
+    .top-bar a:hover { color: #fff; }
+
+    /* NAVBAR */
+    .navbar-main { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .navbar-inner { display: flex; align-items: center; gap: 2rem; padding: 0.75rem 2rem; }
+    .brand { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: #1a1a1a; text-decoration: none; white-space: nowrap; }
+    .brand span { color: #c9a96e; }
+    .search-bar { flex: 1; max-width: 420px; position: relative; }
+    .search-bar input { width: 100%; border: 1.5px solid #e0e0e0; border-radius: 50px; padding: 8px 44px 8px 18px; font-size: 14px; outline: none; transition: border 0.2s; font-family: 'Inter', sans-serif; }
+    .search-bar input:focus { border-color: #c9a96e; }
+    .search-bar button { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #888; cursor: pointer; font-size: 16px; }
+    .nav-links { display: flex; align-items: center; gap: 0.25rem; list-style: none; margin: 0; }
+    .nav-links a { color: #333; text-decoration: none; font-size: 14px; font-weight: 500; padding: 8px 14px; border-radius: 8px; transition: 0.2s; }
+    .nav-links a:hover, .nav-links a.active { background: #f5f0e8; color: #c9a96e; }
+    .nav-icon-btn { background: none; border: none; font-size: 20px; color: #555; cursor: pointer; padding: 6px 8px; border-radius: 8px; transition: 0.2s; }
+    .nav-icon-btn:hover { background: #f5f0e8; color: #c9a96e; }
+
+    /* BREADCRUMB */
+    .breadcrumb-bar { background: #f5f0e8; padding: 10px 2rem; border-bottom: 1px solid #e8dfc8; }
+    .breadcrumb { margin: 0; font-size: 13px; }
+    .breadcrumb-item a { color: #c9a96e; text-decoration: none; }
+    .breadcrumb-item.active { color: #666; }
+    .breadcrumb-item + .breadcrumb-item::before { color: #bbb; }
+
+    /* LAYOUT */
+    .page-layout { display: flex; max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; gap: 2rem; }
+
+    /* SIDEBAR */
+    .sidebar { width: 240px; flex-shrink: 0; }
+    .sidebar-card { background: #fff; border-radius: 16px; border: 1px solid #eeeeee; padding: 1.25rem; margin-bottom: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .sidebar-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f5f0e8; }
+    .sidebar-link { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 10px; color: #444; text-decoration: none; font-size: 14px; font-weight: 400; transition: 0.2s; margin-bottom: 2px; }
+    .sidebar-link:hover, .sidebar-link.active { background: #f5f0e8; color: #c9a96e; }
+    .sidebar-link i { font-size: 16px; width: 20px; text-align: center; }
+    .badge-count { margin-left: auto; background: #f5f0e8; color: #c9a96e; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+
+    /* MAIN */
+    .main-content { flex: 1; min-width: 0; }
+
+    /* SECTION TITLE */
+    .section-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: #1a1a1a; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 12px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: #e8e8e8; }
+
+    /* PAGE SEARCH BAR */
+    .page-search { background: #fff; border-radius: 16px; border: 1px solid #eeeeee; padding: 1.25rem 1.5rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .page-search input { flex: 1; min-width: 200px; border: 1.5px solid #e0e0e0; border-radius: 50px; padding: 9px 20px; font-size: 14px; outline: none; font-family: 'Inter', sans-serif; transition: border 0.2s; }
+    .page-search input:focus { border-color: #c9a96e; }
+    .btn-gold { background: linear-gradient(135deg, #c9a96e, #e8c98a); color: #fff; border: none; border-radius: 50px; padding: 9px 24px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .btn-gold:hover { opacity: 0.9; }
+    .btn-outline-gold { background: transparent; color: #c9a96e; border: 1.5px solid #c9a96e; border-radius: 50px; padding: 9px 24px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .btn-outline-gold:hover { background: #f5f0e8; }
+
+    /* TIPO CARD */
+    .tipo-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #eeeeee;
+      overflow: hidden;
+      transition: 0.25s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .tipo-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.12); }
+    .tipo-icon-wrap {
+      background: linear-gradient(135deg, #f5f0e8, #fdf8f0);
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #f0ebe0;
+      font-size: 3rem;
+      color: #c9a96e;
+    }
+    .tipo-body { padding: 1.1rem 1.25rem 1.25rem; display: flex; flex-direction: column; flex: 1; }
+    .tipo-nombre { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
+    .tipo-id { font-size: 11px; color: #c9a96e; font-weight: 600; margin-bottom: 8px; }
+    .tipo-desc { font-size: 13px; color: #666; line-height: 1.6; flex: 1; margin-bottom: 1rem; }
+    .tipo-actions { display: flex; gap: 8px; }
+    .btn-view { flex: 1; background: #1a1a1a; color: #fff; border: none; border-radius: 10px; padding: 8px 0; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .btn-view:hover { background: #333; }
+    .btn-fav { background: #f5f0e8; color: #c9a96e; border: none; border-radius: 10px; padding: 8px 14px; font-size: 16px; cursor: pointer; transition: 0.2s; }
+    .btn-fav:hover { background: #e8dfc8; }
+
+    /* ICON MAP per tipo */
+    .icon-vinilo::before   { font-family: 'bootstrap-icons'; content: "\f3d7"; } /* vinyl */
+    .icon-cd::before       { font-family: 'bootstrap-icons'; content: "\f3d7"; }
+    .icon-cassette::before { font-family: 'bootstrap-icons'; content: "\f3d7"; }
+
+    /* MODAL */
+    .modal-header { border-bottom: 1px solid #f0f0f0; }
+    .modal-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.2rem; }
+    .modal-icon-wrap { text-align: center; padding: 1.5rem; background: linear-gradient(135deg, #f5f0e8, #fdf8f0); border-radius: 12px; margin-bottom: 1.25rem; font-size: 3.5rem; color: #c9a96e; }
+    .modal-detail { font-size: 14px; color: #555; margin-bottom: 8px; }
+    .modal-detail strong { color: #1a1a1a; }
+
+    /* MARQUEE */
+    .marquee-section { background: #1a1a1a; padding: 16px 0; overflow: hidden; margin: 2.5rem 0; }
+    .marquee-track { display: flex; animation: marquee 30s linear infinite; white-space: nowrap; }
+    .marquee-item { display: flex; align-items: center; gap: 12px; padding: 0 2rem; color: #c9a96e; font-size: 14px; font-weight: 500; letter-spacing: 1px; }
+    .marquee-item i { font-size: 16px; }
+    .marquee-dot { color: #555; font-size: 20px; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* PROJECT BANNER */
+    .project-banner { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); color: #fff; border-radius: 16px; padding: 1.5rem 2rem; margin-bottom: 2rem; border-left: 4px solid #c9a96e; }
+    .project-banner h6 { color: #c9a96e; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; font-weight: 600; }
+    .project-banner p { color: #ccc; font-size: 13px; line-height: 1.6; margin: 0; }
+
+    /* FOOTER */
+    footer { background: #1a1a1a; color: #ccc; padding: 3rem 0 1.5rem; margin-top: 3rem; }
+    .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .footer-brand span { color: #c9a96e; }
+    footer h6 { color: #fff; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+    footer p, footer div { color: #999; font-size: 13px; line-height: 1.8; }
+    .footer-divider { border-top: 1px solid #333; margin: 2rem 0 1rem; }
+    .footer-bottom { font-size: 12px; color: #666; text-align: center; }
+    .footer-social a { color: #666; font-size: 18px; margin-right: 12px; text-decoration: none; transition: 0.2s; }
+    .footer-social a:hover { color: #c9a96e; }
+
+    .results-info { font-size: 13px; color: #888; margin-bottom: 1.25rem; }
+    .results-info strong { color: #1a1a1a; }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+    <span><i class="bi bi-telephone me-1"></i> Whatsapp: 8604-1107 &nbsp;|&nbsp; <i class="bi bi-envelope me-1"></i> hikaris@gmail.com</span>
+    <span>Universidad Nacional — Diseño de Sitios Web — Proyecto 3</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar-main">
+  <div class="navbar-inner">
+    <a href="index.html" class="brand">Hikari's <span>Records</span></a>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar artistas, álbumes, géneros...">
+      <button><i class="bi bi-search"></i></button>
+    </div>
+    <ul class="nav-links d-none d-lg-flex">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="#">Artistas</a></li>
+      <li><a href="#">Álbumes</a></li>
+      <li><a href="#">Géneros</a></li>
+      <li><a href="sellos.html">Sellos</a></li>
+      <li><a href="tipos.html" class="active">Tipos</a></li>
+      <li><a href="#">Tienda</a></li>
+    </ul>
+    <div class="d-flex gap-1 ms-auto ms-lg-0">
+      <button class="nav-icon-btn"><i class="bi bi-heart"></i></button>
+      <button class="nav-icon-btn"><i class="bi bi-bag"></i></button>
+      <button class="nav-icon-btn"><i class="bi bi-person"></i></button>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="container-fluid px-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html"><i class="bi bi-house me-1"></i>Inicio</a></li>
+        <li class="breadcrumb-item active">{{ breadcrumb }}</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<!-- PAGE LAYOUT -->
+<div class="page-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar d-none d-xl-block">
+
+    <div class="sidebar-card">
+      <div class="sidebar-title"><i class="bi bi-mortarboard me-2"></i>Proyecto</div>
+      <div style="font-size:12px; color:#666; line-height:1.7;">
+        <strong style="color:#1a1a1a;">Universidad Nacional</strong><br>
+        Escuela de Informática<br>
+        Diseño de Sitios Web<br>
+        <span style="color:#c9a96e; font-weight:600;">Proyecto 3 — InjaX SSG</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-title">Categorías</div>
+      <a href="#" class="sidebar-link"><i class="bi bi-music-note-beamed"></i> Pop <span class="badge-count">24</span></a>
+      <a href="#" class="sidebar-link"><i class="bi bi-music-note-list"></i> Rock <span class="badge-count">18</span></a>
+      <a href="#" class="sidebar-link"><i class="bi bi-soundwave"></i> Reggaeton <span class="badge-count">31</span></a>
+      <a href="#" class="sidebar-link"><i class="bi bi-vinyl"></i> Jazz <span class="badge-count">12</span></a>
+      <a href="#" class="sidebar-link"><i class="bi bi-headphones"></i> Electrónica <span class="badge-count">9</span></a>
+      <a href="#" class="sidebar-link"><i class="bi bi-star"></i> K-Pop <span class="badge-count">15</span></a>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-title">Accesos rápidos</div>
+      <a href="#" class="sidebar-link"><i class="bi bi-people"></i> Artistas</a>
+      <a href="#" class="sidebar-link"><i class="bi bi-disc"></i> Álbumes</a>
+      <a href="sellos.html" class="sidebar-link"><i class="bi bi-building"></i> Sellos</a>
+      <a href="tipos.html" class="sidebar-link active"><i class="bi bi-tags"></i> Tipos</a>
+      <a href="#" class="sidebar-link"><i class="bi bi-cart"></i> Tienda</a>
+      <a href="#" class="sidebar-link"><i class="bi bi-search"></i> Búsqueda</a>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- PROJECT BANNER -->
+    <div class="project-banner">
+      <h6><i class="bi bi-mortarboard me-1"></i> Universidad Nacional · Escuela de Informática · Diseño de Sitios Web</h6>
+      <p>Proyecto 3 — Sitio web generado estáticamente con <strong style="color:#c9a96e;">InjaX SSG</strong>. Página de tipos de producto generada desde <code style="color:#e8c98a;">tipos.json</code> con la plantilla <code style="color:#e8c98a;">tipos-html.inja</code>.</p>
+    </div>
+
+    <!-- PAGE SEARCH / FILTER BAR -->
+    <div class="page-search">
+      <i class="bi bi-tags" style="font-size:20px; color:#c9a96e;"></i>
+      <input type="text" id="tipoSearch" placeholder="Buscar tipo de producto..." oninput="filterTipos()">
+      <select id="tipoOrder" style="border: 1.5px solid #c9a96e; border-radius:50px; padding:9px 20px; font-size:14px; outline:none; color:#c9a96e; font-weight:600; background:#fff; cursor:pointer;" onchange="filterTipos()">
+        <option value="">Ordenar</option>
+        <option value="asc">A → Z</option>
+        <option value="desc">Z → A</option>
+      </select>
+      <button class="btn-gold" onclick="filterTipos()"><i class="bi bi-funnel me-1"></i> Filtrar</button>
+      <button class="btn-outline-gold" onclick="resetFilter()"><i class="bi bi-x-circle me-1"></i> Limpiar</button>
+    </div>
+
+    <!-- SECTION TITLE -->
+    <h2 class="section-title">✦ {{ page_title }}</h2>
+
+    <p class="results-info">Mostrando <strong id="countLabel">{{ tipos | length }}</strong> tipo(s) de producto</p>
+
+    <!-- CARDS GRID -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3 mb-4" id="tiposGrid">
+      {% for t in tipos %}
+        <div class="col tipo-item" data-name="{{ t.nombre }}">
+          <div class="tipo-card">
+
+            <!-- ICON -->
+            <div class="tipo-icon-wrap">
+              <i class="bi bi-{{ t.icono | default("tag") }}"></i>
+            </div>
+
+            <div class="tipo-body">
+              <div class="tipo-nombre">{{ t.nombre }}</div>
+              <div class="tipo-id"><i class="bi bi-hash"></i> ID {{ t.id }}</div>
+              <p class="tipo-desc">{{ t.descripcion }}</p>
+              <div class="tipo-actions">
+                <button class="btn-view"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalTipo{{ t.id }}">
+                  <i class="bi bi-eye me-1"></i> Ver detalle
+                </button>
+                <button class="btn-fav"><i class="bi bi-heart"></i></button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- MODAL -->
+        <div class="modal fade" id="modalTipo{{ t.id }}" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">{{ t.nombre }}</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div class="modal-icon-wrap">
+                  <i class="bi bi-{{ t.icono | default("tag") }}"></i>
+                </div>
+                <p class="modal-detail"><strong>ID:</strong> {{ t.id }}</p>
+                <p class="modal-detail"><strong>Nombre:</strong> {{ t.nombre }}</p>
+                <p class="modal-detail"><strong>Descripción:</strong> {{ t.descripcion }}</p>
+              </div>
+              <div class="modal-footer">
+                <button class="btn-outline-gold" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn-gold"><i class="bi bi-heart me-1"></i> Favorito</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      {% endfor %}
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div id="emptyState" style="display:none; text-align:center; padding:3rem; color:#aaa;">
+      <i class="bi bi-search" style="font-size:3rem; color:#e0e0e0;"></i>
+      <p style="margin-top:1rem; font-size:15px;">No se encontraron tipos con ese criterio.</p>
+      <button class="btn-outline-gold" style="margin-top:0.75rem;" onclick="resetFilter()">Limpiar búsqueda</button>
+    </div>
+
+  </main>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    {% for i in slider_repeticiones %}
+      <span class="marquee-item"><i class="bi bi-music-note"></i> {{ slider_texto }}</span>
+      <span class="marquee-dot">·</span>
+    {% endfor %}
+    {% for i in slider_repeticiones %}
+      <span class="marquee-item"><i class="bi bi-music-note"></i> {{ slider_texto }}</span>
+      <span class="marquee-dot">·</span>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="footer-brand">Hikari's <span>Records</span></div>
+        <p style="font-size:13px; color:#666; margin-top:8px; padding:0;">Tu destino de música y cultura pop.</p>
+        <div class="footer-social mt-3">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <h6>Métodos de pago</h6>
+        {% for p in footer.pagos %}<div>{{ p }}</div>{% endfor %}
+      </div>
+      <div class="col-md-3">
+        <h6>Ubicación</h6>
+        {% for u in footer.ubicacion %}<div>{{ u }}</div>{% endfor %}
+      </div>
+      <div class="col-md-3">
+        <h6>Contacto</h6>
+        {% for c in footer.contacto %}<div>{{ c }}</div>{% endfor %}
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      © 2026 Hikari's Records — Universidad Nacional, Escuela de Informática, Diseño de Sitios Web, Proyecto 3
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function filterTipos() {
+    const q = document.getElementById('tipoSearch').value.toLowerCase();
+    const ord = document.getElementById('tipoOrder').value;
+    const items = Array.from(document.querySelectorAll('.tipo-item'));
+
+    let visible = items.filter(el => {
+      const name = el.dataset.name.toLowerCase();
+      const match = name.includes(q);
+      el.style.display = match ? '' : 'none';
+      return match;
+    });
+
+    if (ord) {
+      const grid = document.getElementById('tiposGrid');
+      visible.sort((a, b) => {
+        const na = a.dataset.name, nb = b.dataset.name;
+        return ord === 'asc' ? na.localeCompare(nb) : nb.localeCompare(na);
+      });
+      visible.forEach(el => grid.appendChild(el));
+    }
+
+    document.getElementById('countLabel').textContent = visible.length;
+    document.getElementById('emptyState').style.display = visible.length === 0 ? 'block' : 'none';
+  }
+
+  function resetFilter() {
+    document.getElementById('tipoSearch').value = '';
+    document.getElementById('tipoOrder').value = '';
+    document.querySelectorAll('.tipo-item').forEach(el => el.style.display = '');
+    document.getElementById('countLabel').textContent = document.querySelectorAll('.tipo-item').length;
+    document.getElementById('emptyState').style.display = 'none';
+  }
+</script>
+</body>
+</html>

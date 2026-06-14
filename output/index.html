@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inicio — Hikari's Records</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ===== BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #fafafa; color: #1a1a1a; }
+
+    /* ===== TOP BAR ===== */
+    .top-bar {
+      background: #1a1a1a;
+      color: #ccc;
+      font-size: 12px;
+      padding: 6px 0;
+      letter-spacing: 0.5px;
+    }
+    .top-bar a { color: #ccc; text-decoration: none; }
+    .top-bar a:hover { color: #fff; }
+
+    /* ===== NAVBAR ===== */
+    .navbar-main {
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 0.75rem 2rem;
+    }
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .brand span { color: #c9a96e; }
+    .search-bar {
+      flex: 1;
+      max-width: 420px;
+      position: relative;
+    }
+    .search-bar input {
+      width: 100%;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 50px;
+      padding: 8px 44px 8px 18px;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .search-bar input:focus { border-color: #c9a96e; }
+    .search-bar button {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #888;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+      margin: 0;
+    }
+    .nav-links a {
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { background: #f5f0e8; color: #c9a96e; }
+    .nav-icon-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #555;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 8px;
+      transition: 0.2s;
+    }
+    .nav-icon-btn:hover { background: #f5f0e8; color: #c9a96e; }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb-bar {
+      background: #f5f0e8;
+      padding: 10px 2rem;
+      border-bottom: 1px solid #e8dfc8;
+    }
+    .breadcrumb { margin: 0; font-size: 13px; }
+    .breadcrumb-item a { color: #c9a96e; text-decoration: none; }
+    .breadcrumb-item.active { color: #666; }
+    .breadcrumb-item + .breadcrumb-item::before { color: #bbb; }
+
+    /* ===== LAYOUT ===== */
+    .page-layout {
+      display: flex;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      gap: 2rem;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+    }
+    .sidebar-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #eeeeee;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .sidebar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #f5f0e8;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      color: #444;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 400;
+      transition: 0.2s;
+      margin-bottom: 2px;
+    }
+    .sidebar-link:hover, .sidebar-link.active {
+      background: #f5f0e8;
+      color: #c9a96e;
+    }
+    .sidebar-link i { font-size: 16px; width: 20px; text-align: center; }
+    .badge-count {
+      margin-left: auto;
+      background: #f5f0e8;
+      color: #c9a96e;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content { flex: 1; min-width: 0; }
+
+    /* ===== CAROUSEL ===== */
+    .carousel-wrap {
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+    .carousel-item img {
+      height: 420px;
+      object-fit: cover;
+      width: 100%;
+    }
+    .carousel-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.6));
+      padding: 2rem;
+      color: white;
+    }
+    .carousel-overlay h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-align: left;
+      color: white;
+    }
+
+    /* ===== SECTION TITLE ===== */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e8e8e8;
+    }
+
+    /* ===== COMING SOON CARDS ===== */
+    .product-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #eeeeee;
+      overflow: hidden;
+      transition: 0.25s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      height: 100%;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    }
+    .product-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .product-card-body {
+      padding: 1rem;
+      text-align: center;
+    }
+    .product-card-body p {
+      font-size: 13px;
+      font-weight: 500;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      line-height: 1.4;
+    }
+    .badge-soon {
+      display: inline-block;
+      background: linear-gradient(135deg, #c9a96e, #e8c98a);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    /* ===== SLIDER / MARQUEE ===== */
+    .marquee-section {
+      background: #1a1a1a;
+      padding: 16px 0;
+      overflow: hidden;
+      margin: 2.5rem 0;
+    }
+    .marquee-track {
+      display: flex;
+      animation: marquee 30s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 2rem;
+      color: #c9a96e;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    .marquee-item i { font-size: 16px; }
+    .marquee-dot { color: #555; font-size: 20px; }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #1a1a1a;
+      color: #ccc;
+      padding: 3rem 0 1.5rem;
+      margin-top: 3rem;
+    }
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .footer-brand span { color: #c9a96e; }
+    footer h6 {
+      color: #fff;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+    footer p, footer div { color: #999; font-size: 13px; line-height: 1.8; }
+    .footer-divider {
+      border-top: 1px solid #333;
+      margin: 2rem 0 1rem;
+    }
+    .footer-bottom {
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+    }
+    .footer-social a {
+      color: #666;
+      font-size: 18px;
+      margin-right: 12px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .footer-social a:hover { color: #c9a96e; }
+
+    /* ===== PROJECT INFO BANNER ===== */
+    .project-banner {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: #fff;
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #c9a96e;
+    }
+    .project-banner h6 {
+      color: #c9a96e;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .project-banner p {
+      color: #ccc;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+    <span><i class="bi bi-telephone me-1"></i> Whatsapp: 8604-1107 &nbsp;|&nbsp; <i class="bi bi-envelope me-1"></i> hikaris@gmail.com</span>
+    <span>Universidad Nacional — Diseño de Sitios Web — Proyecto 3</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar-main">
+  <div class="navbar-inner">
+    <a href="index.html" class="brand">Hikari's <span>Records</span></a>
+
+    <!-- SEARCH -->
+    <div class="search-bar">
+      <input type="text" id="globalSearch" placeholder="Buscar artistas, álbumes, géneros...">
+      <button><i class="bi bi-search"></i></button>
+    </div>
+
+    <!-- NAV LINKS -->
+    <ul class="nav-links d-none d-lg-flex">
+      <li><a href="index.html" class="active">Inicio</a></li>
+      <li><a href="artista.html">Artistas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="generos.html">Géneros</a></li>
+      <li><a href="aboutus.html">Sobre Nosotros</a></li>
+    </ul>
+
+    <div class="d-flex gap-1 ms-auto ms-lg-0">
+      <button class="nav-icon-btn"><i class="bi bi-heart"></i></button>
+              <a href="checkout.html" class="nav-icon-btn">
+      <i class="bi bi-bag"></i>
+    </a>
+      <a href="auth.html" class="nav-icon-btn">
+      <i class="bi bi-person"></i>
+    </a>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="container-fluid px-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html"><i class="bi bi-house me-1"></i>Inicio</a></li>
+        <li class="breadcrumb-item active">Página principal</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<!-- PAGE LAYOUT -->
+<div class="page-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar d-none d-xl-block">
+
+    <!-- PROJECT INFO -->
+    <div class="sidebar-card">
+      <div class="sidebar-title"><i class="bi bi-mortarboard me-2"></i>Proyecto</div>
+      <div style="font-size:12px; color:#666; line-height:1.7;">
+        <strong style="color:#1a1a1a;">Universidad Nacional</strong><br>
+        Escuela de Informática<br>
+        Diseño de Sitios Web<br>
+        <span style="color:#c9a96e; font-weight:600;">Proyecto 3 — InjaX SSG</span>
+      </div>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="sidebar-card">
+      <div class="sidebar-title">Categorías</div>
+      <a href="#" class="sidebar-link active">
+        <i class="bi bi-music-note-beamed"></i> Pop
+        <span class="badge-count">24</span>
+      </a>
+      <a href="#" class="sidebar-link">
+        <i class="bi bi-music-note-list"></i> Rock
+        <span class="badge-count">18</span>
+      </a>
+      <a href="#" class="sidebar-link">
+        <i class="bi bi-soundwave"></i> Reggaeton
+        <span class="badge-count">31</span>
+      </a>
+      <a href="#" class="sidebar-link">
+        <i class="bi bi-vinyl"></i> Jazz
+        <span class="badge-count">12</span>
+      </a>
+      <a href="#" class="sidebar-link">
+        <i class="bi bi-headphones"></i> Electrónica
+        <span class="badge-count">9</span>
+      </a>
+      <a href="#" class="sidebar-link">
+        <i class="bi bi-star"></i> K-Pop
+        <span class="badge-count">15</span>
+      </a>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="sidebar-card">
+      <div class="sidebar-title">Accesos rápidos</div>
+      <a href="#" class="sidebar-link"><i class="bi bi-people"></i> Artistas</a>
+      <a href="#" class="sidebar-link"><i class="bi bi-disc"></i> Álbumes</a>
+      <a href="#" class="sidebar-link"><i class="bi bi-cart"></i> Tienda</a>
+      <a href="#" class="sidebar-link"><i class="bi bi-search"></i> Búsqueda</a>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- PROJECT BANNER -->
+    <div class="project-banner">
+      <h6><i class="bi bi-mortarboard me-1"></i> Universidad Nacional · Escuela de Informática · Diseño de Sitios Web</h6>
+      <p>Proyecto 3 — Sitio web generado estáticamente con <strong style="color:#c9a96e;">InjaX SSG</strong>. Los archivos JSON son procesados con plantillas .inja para producir HTML estático, manteniendo toda la estructura y diseño del Proyecto 2.</p>
+    </div>
+
+    <!-- CAROUSEL -->
+    <div class="carousel-wrap">
+      <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+        <div class="carousel-inner">
+            <div class="carousel-item " style="position:relative;">
+              <img src="https://i.pinimg.com/736x/30/68/ab/3068ab91ed1033702f6c64cc955d2205.jpg" class="d-block w-100">
+              <div class="carousel-overlay">
+                <h3>Hikari's Records</h3>
+              </div>
+            </div>
+            <div class="carousel-item active" style="position:relative;">
+              <img src="https://img2.rtve.es/i/?w=1200&i=https://img.rtve.es/imagenes/foto-abbey-road-cumple-50-anos/1565264921818.jpg" class="d-block w-100">
+              <div class="carousel-overlay">
+                <h3>Hikari's Records</h3>
+              </div>
+            </div>
+            <div class="carousel-item " style="position:relative;">
+              <img src="https://www.laxcali.com/uploads/newsarticle/e98ad8ff665e4508b601555ff09f92d7/ariana-grande-on-stall-chair-photography-cl_b3wZ62a.jpg" class="d-block w-100">
+              <div class="carousel-overlay">
+                <h3>Hikari's Records</h3>
+              </div>
+            </div>
+            <div class="carousel-item " style="position:relative;">
+              <img src="https://www.infobae.com/resizer/v2/E73NEXJKIJDDJHI7XPKRUPAH6Q.png?auth=0582aef45efe1475cf5372b646f09d140ca946697ec4dc7f90a49d6d17356e31" class="d-block w-100">
+              <div class="carousel-overlay">
+                <h3>Hikari's Records</h3>
+              </div>
+            </div>
+            <div class="carousel-item " style="position:relative;">
+              <img src="https://media.pitchfork.com/photos/679cccbab742af95ca81e4fe/16:9/w_1280,c_limit/The-Weeknd-Hurry-Up-Tomorrow.jpeg" class="d-block w-100">
+              <div class="carousel-overlay">
+                <h3>Hikari's Records</h3>
+              </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0"
+></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"
+class="active"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"
+></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3"
+></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="4"
+></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMING SOON -->
+    <h2 class="section-title">✦ Coming Soon</h2>
+    <div class="row row-cols-2 row-cols-md-4 g-3 mb-4">
+        <div class="col">
+          <div class="product-card">
+            <img src="https://imusic.b-cdn.net/images/item/original/266/8800327581266.jpg" alt="BTS Lightstick">
+            <div class="product-card-body">
+              <div class="badge-soon">Próximamente</div>
+              <p>BTS Lightstick</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card">
+            <img src="https://i.scdn.co/image/ab67616d00001e021a1495ff41046065b9475366" alt="Drop Dead Olivia Rodrigo">
+            <div class="product-card-body">
+              <div class="badge-soon">Próximamente</div>
+              <p>Drop Dead Olivia Rodrigo</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card">
+            <img src="https://i.scdn.co/image/ab67616d0000b273bc755429117cac056edd2bf7" alt="The Life of a Showgirl - Taylor Swift">
+            <div class="product-card-body">
+              <div class="badge-soon">Próximamente</div>
+              <p>The Life of a Showgirl - Taylor Swift</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4eYTpqw-hYM1rGc0lOtduwxcD9BHmcWEB8w&s" alt="DtMF - Bad Bunny">
+            <div class="product-card-body">
+              <div class="badge-soon">Próximamente</div>
+              <p>DtMF - Bad Bunny</p>
+            </div>
+          </div>
+        </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+      <span class="marquee-item"><i class="bi bi-music-note"></i> Whatsapp: 8604-1107</span>
+      <span class="marquee-dot">·</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+
+      <div class="col-md-3">
+        <div class="footer-brand">Hikari's <span>Records</span></div>
+        <p style="font-size:13px; color:#666; margin-top:8px; padding:0;">Tu destino de música y cultura pop.</p>
+        <div class="footer-social mt-3">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <h6>Métodos de pago</h6>
+          <div>Paypal: hikaris@gmail.com</div>
+          <div>Iban CR72010200009119</div>
+          <div>Customer account 102000091197</div>
+      </div>
+
+      <div class="col-md-3">
+        <h6>Ubicación</h6>
+          <div>Country: USA</div>
+          <div>California Street</div>
+      </div>
+
+      <div class="col-md-3">
+        <h6>Contacto</h6>
+          <div>Whatsapp: 8604-1107</div>
+          <div>Facebook: Hikari's Records</div>
+          <div>Instagram: Hikari's Records</div>
+      </div>
+
+    </div>
+
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      © 2026 Hikari's Records — Universidad Nacional, Escuela de Informática, Diseño de Sitios Web, Proyecto 3
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

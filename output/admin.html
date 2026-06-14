@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard — Hikari's Records</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #f4f4f6; color: #1a1a1a; }
+
+    /* ===== TOP BAR ===== */
+    .top-bar {
+      background: #1a1a1a; color: #ccc; font-size: 12px;
+      padding: 6px 0; letter-spacing: 0.5px;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar-main {
+      background: #fff; border-bottom: 1px solid #e8e8e8; padding: 0;
+      position: sticky; top: 0; z-index: 1000;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .navbar-inner { display: flex; align-items: center; gap: 2rem; padding: 0.75rem 2rem; }
+    .brand {
+      font-family: 'Playfair Display', serif; font-size: 1.6rem;
+      font-weight: 700; color: #1a1a1a; text-decoration: none; white-space: nowrap;
+    }
+    .brand span { color: #c9a96e; }
+    .nav-links { display: flex; align-items: center; gap: 0.25rem; list-style: none; margin: 0; }
+    .nav-links a {
+      color: #333; text-decoration: none; font-size: 14px; font-weight: 500;
+      padding: 8px 14px; border-radius: 8px; transition: 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { background: #f5f0e8; color: #c9a96e; }
+    .nav-icon-btn {
+      background: none; border: none; font-size: 20px; color: #555;
+      cursor: pointer; padding: 6px 8px; border-radius: 8px; transition: 0.2s;
+    }
+    .nav-icon-btn:hover { background: #f5f0e8; color: #c9a96e; }
+    .admin-badge {
+      background: linear-gradient(135deg, #c9a96e, #e8c98a);
+      color: #fff; font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px; letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb-bar {
+      background: #f5f0e8; padding: 10px 2rem; border-bottom: 1px solid #e8dfc8;
+    }
+    .breadcrumb { margin: 0; font-size: 13px; }
+    .breadcrumb-item a { color: #c9a96e; text-decoration: none; }
+    .breadcrumb-item.active { color: #666; }
+
+    /* ===== LAYOUT ===== */
+    .page-layout { display: flex; min-height: calc(100vh - 200px); }
+
+    /* ===== ADMIN SIDEBAR ===== */
+    .admin-sidebar {
+      width: 240px; flex-shrink: 0;
+      background: #1a1a1a;
+      padding: 1.5rem 1rem;
+      min-height: 100%;
+    }
+    .admin-sidebar-title {
+      color: #666; font-size: 10px; text-transform: uppercase;
+      letter-spacing: 2px; font-weight: 600; margin: 1.25rem 0 0.5rem;
+      padding: 0 0.5rem;
+    }
+    .admin-sidebar-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 10px;
+      color: #aaa; text-decoration: none; font-size: 14px;
+      font-weight: 400; transition: 0.2s; margin-bottom: 2px;
+    }
+    .admin-sidebar-link:hover, .admin-sidebar-link.active {
+      background: rgba(201,169,110,0.15); color: #c9a96e;
+    }
+    .admin-sidebar-link i { font-size: 16px; width: 20px; text-align: center; }
+    .sidebar-user {
+      background: rgba(255,255,255,0.06); border-radius: 12px;
+      padding: 12px; margin-bottom: 1.5rem; display: flex;
+      align-items: center; gap: 10px;
+    }
+    .sidebar-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, #c9a96e, #e8c98a);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 16px; flex-shrink: 0;
+    }
+    .sidebar-user-name { color: #fff; font-size: 13px; font-weight: 600; }
+    .sidebar-user-role { color: #666; font-size: 11px; }
+
+    /* ===== MAIN ===== */
+    .main-content { flex: 1; padding: 2rem; min-width: 0; }
+
+    /* ===== WELCOME BANNER ===== */
+    .welcome-banner {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+      border-radius: 20px; padding: 2rem 2.5rem;
+      margin-bottom: 2rem; position: relative; overflow: hidden;
+      border-left: 4px solid #c9a96e;
+    }
+    .welcome-banner::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: rgba(201,169,110,0.06);
+    }
+    .welcome-banner::after {
+      content: '';
+      position: absolute; bottom: -60px; right: 80px;
+      width: 150px; height: 150px; border-radius: 50%;
+      background: rgba(201,169,110,0.04);
+    }
+    .welcome-banner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: 4px;
+    }
+    .welcome-banner p { color: #888; font-size: 14px; margin: 0; padding: 0; }
+    .welcome-time {
+      color: #c9a96e; font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;
+    }
+
+    /* ===== STAT CARDS ===== */
+    .stat-card {
+      background: #fff; border-radius: 16px; border: 1px solid #eee;
+      padding: 1.5rem; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: 0.25s;
+      height: 100%;
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+    .stat-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: #f5f0e8; display: flex; align-items: center;
+      justify-content: center; margin: 0 auto 1rem;
+      font-size: 22px; color: #c9a96e;
+    }
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700; color: #1a1a1a; line-height: 1;
+    }
+    .stat-label { color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+    .stat-trend { color: #4caf50; font-size: 11px; margin-top: 6px; font-weight: 500; }
+
+    /* ===== SECTION TITLE ===== */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700; color: #1a1a1a;
+      margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;
+    }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: #eee; }
+
+    /* ===== QUICK ACCESS CARDS ===== */
+    .access-card {
+      background: #fff; border-radius: 16px; border: 1px solid #eee;
+      padding: 1.5rem 1rem; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: 0.25s; text-decoration: none; display: block; height: 100%;
+    }
+    .access-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+      border-color: #c9a96e;
+    }
+    .access-card i { font-size: 28px; color: #c9a96e; display: block; margin-bottom: 0.75rem; }
+    .access-card p { color: #333; font-size: 13px; font-weight: 600; margin: 0; padding: 0; }
+
+    /* ===== FOOTER ===== */
+    footer { background: #1a1a1a; color: #ccc; padding: 3rem 0 1.5rem; }
+    .footer-brand {
+      font-family: 'Playfair Display', serif; font-size: 1.4rem;
+      font-weight: 700; color: #fff;
+    }
+    .footer-brand span { color: #c9a96e; }
+    footer h6 {
+      color: #fff; font-weight: 600; font-size: 13px;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;
+    }
+    footer div { color: #999; font-size: 13px; line-height: 1.8; }
+    .footer-divider { border-top: 1px solid #333; margin: 2rem 0 1rem; }
+    .footer-bottom { font-size: 12px; color: #666; text-align: center; }
+    .footer-social a { color: #666; font-size: 18px; margin-right: 12px; text-decoration: none; transition: 0.2s; }
+    .footer-social a:hover { color: #c9a96e; }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+    <span><i class="bi bi-telephone me-1"></i> Whatsapp: 8604-1107 &nbsp;|&nbsp; <i class="bi bi-envelope me-1"></i> hikaris@gmail.com</span>
+    <span>Universidad Nacional — Diseño de Sitios Web — Proyecto 3</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar-main">
+  <div class="navbar-inner">
+    <a href="../index.html" class="brand">Hikari's <span>Records</span></a>
+    <ul class="nav-links d-none d-lg-flex">
+      <li><a href="index.html" class="active">Inicio</a></li>
+      <li><a href="artista.html">Artistas</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="generos.html">Géneros</a></li>
+      <li><a href="aboutus.html">Sobre Nosotros</a></li>
+    </ul>
+    <div class="d-flex gap-2 align-items-center ms-auto ms-lg-0">
+      <span class="admin-badge"><i class="bi bi-shield-check me-1"></i>Admin</span>
+      <button class="nav-icon-btn"><i class="bi bi-bell"></i></button>
+           <a href="auth.html" class="nav-icon-btn">
+      <i class="bi bi-person"></i>
+    </a>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="container-fluid px-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="../index.html"><i class="bi bi-house me-1"></i>Inicio</a></li>
+        <li class="breadcrumb-item active">Admin Dashboard</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<!-- PAGE LAYOUT -->
+<div class="page-layout">
+
+  <!-- ADMIN SIDEBAR -->
+  <aside class="admin-sidebar d-none d-xl-block">
+
+    <div class="sidebar-user">
+      <div class="sidebar-avatar"><i class="bi bi-person"></i></div>
+      <div>
+        <div class="sidebar-user-name">Administrador</div>
+        <div class="sidebar-user-role">Administrator</div>
+      </div>
+    </div>
+
+    <div class="admin-sidebar-title">Gestión</div>
+      <a href="#" class="admin-sidebar-link">
+        <i class="bi bi-vinyl"></i> Products
+      </a>
+      <a href="#" class="admin-sidebar-link">
+        <i class="bi bi-people"></i> Users
+      </a>
+      <a href="#" class="admin-sidebar-link">
+        <i class="bi bi-music-note-beamed"></i> Artists
+      </a>
+      <a href="#" class="admin-sidebar-link">
+        <i class="bi bi-tags"></i> Genres
+      </a>
+      <a href="#" class="admin-sidebar-link">
+        <i class="bi bi-grid"></i> Product Types
+      </a>
+      <a href="#" class="admin-sidebar-link">
+        <i class="bi bi-building"></i> Record Labels
+      </a>
+      <a href="#" class="admin-sidebar-link">
+        <i class="bi bi-cart3"></i> Carts
+      </a>
+      <a href="#" class="admin-sidebar-link">
+        <i class="bi bi-heart"></i> Wishlists
+      </a>
+
+    <div class="admin-sidebar-title">Sistema</div>
+    <a href="#" class="admin-sidebar-link"><i class="bi bi-gear"></i> Settings</a>
+    <a href="#" class="admin-sidebar-link"><i class="bi bi-bar-chart"></i> Reports</a>
+    <a href="#" class="admin-sidebar-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- WELCOME BANNER -->
+    <div class="welcome-banner">
+      <div class="welcome-time"><i class="bi bi-shield-check me-1"></i>Admin Panel</div>
+      <h2>Welcome back, Administrador</h2>
+      <p>Here's what's happening with Hikari's Records today.</p>
+    </div>
+
+    <!-- STATS -->
+    <h2 class="section-title">Overview</h2>
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-box-seam"></i></div>
+            <div class="stat-value">128</div>
+            <div class="stat-label">Products</div>
+            <div class="stat-trend"><i class="bi bi-arrow-up-short"></i> Active</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-people"></i></div>
+            <div class="stat-value">340</div>
+            <div class="stat-label">Users</div>
+            <div class="stat-trend"><i class="bi bi-arrow-up-short"></i> Active</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-music-note-list"></i></div>
+            <div class="stat-value">87</div>
+            <div class="stat-label">Artists</div>
+            <div class="stat-trend"><i class="bi bi-arrow-up-short"></i> Active</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="bi bi-tags"></i></div>
+            <div class="stat-value">22</div>
+            <div class="stat-label">Genres</div>
+            <div class="stat-trend"><i class="bi bi-arrow-up-short"></i> Active</div>
+          </div>
+        </div>
+    </div>
+
+    <!-- QUICK ACCESS -->
+    <h2 class="section-title">Quick Access</h2>
+    <div class="row g-3">
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="#" class="access-card">
+            <i class="bi bi-vinyl"></i>
+            <p>Products</p>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="#" class="access-card">
+            <i class="bi bi-people"></i>
+            <p>Users</p>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="#" class="access-card">
+            <i class="bi bi-music-note-beamed"></i>
+            <p>Artists</p>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="#" class="access-card">
+            <i class="bi bi-tags"></i>
+            <p>Genres</p>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="#" class="access-card">
+            <i class="bi bi-grid"></i>
+            <p>Product Types</p>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="#" class="access-card">
+            <i class="bi bi-building"></i>
+            <p>Record Labels</p>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="#" class="access-card">
+            <i class="bi bi-cart3"></i>
+            <p>Carts</p>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="#" class="access-card">
+            <i class="bi bi-heart"></i>
+            <p>Wishlists</p>
+          </a>
+        </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="footer-brand">Hikari's <span>Records</span></div>
+        <div style="font-size:13px; color:#666; margin-top:8px;">Tu destino de música y cultura pop.</div>
+        <div class="footer-social mt-3">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <h6>Métodos de pago</h6>
+<div>Paypal: hikaris@gmail.com</div><div>Iban CR72010200009119</div><div>Customer account 102000091197</div>      </div>
+      <div class="col-md-3">
+        <h6>Ubicación</h6>
+<div>Country: USA</div><div>California Street</div>      </div>
+      <div class="col-md-3">
+        <h6>Contacto</h6>
+<div>Whatsapp: 8604-1107</div><div>Facebook: Hikari's Records</div><div>Instagram: Hikari's Records</div>      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      © 2026 Hikari's Records — Universidad Nacional, Escuela de Informática, Diseño de Sitios Web, Proyecto 3
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

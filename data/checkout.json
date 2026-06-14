@@ -1,0 +1,51 @@
+{
+  "checkout": {
+    "titulo": "Checkout",
+    "subtitulo": "Review your order before confirming",
+    "usuario": {
+      "nombre": "Hikari Yamamoto",
+      "email": "hikaris@gmail.com"
+    },
+    "carrito": {
+      "items": [
+        {
+          "imagen": "https://imusic.b-cdn.net/images/item/original/266/8800327581266.jpg",
+          "nombre": "BTS Lightstick",
+          "precio_unitario": 45.00,
+          "cantidad": 1
+        },
+        {
+          "imagen": "https://i.scdn.co/image/ab67616d00001e021a1495ff41046065b9475366",
+          "nombre": "Drop Dead — Olivia Rodrigo",
+          "precio_unitario": 18.99,
+          "cantidad": 2
+        },
+        {
+          "imagen": "https://i.scdn.co/image/ab67616d0000b273bc755429117cac056edd2bf7",
+          "nombre": "The Life of a Showgirl — Taylor Swift",
+          "precio_unitario": 22.50,
+          "cantidad": 1
+        }
+      ],
+      "total": 105.48
+    }
+  },
+  "slider_texto": "Whatsapp: 8604-1107",
+  "slider_repeticiones": [1,2,3,4,5,6,7,8,9,10],
+  "footer": {
+    "pagos": [
+      "Paypal: hikaris@gmail.com",
+      "Iban CR72010200009119",
+      "Customer account 102000091197"
+    ],
+    "ubicacion": [
+      "Country: USA",
+      "California Street"
+    ],
+    "contacto": [
+      "Whatsapp: 8604-1107",
+      "Facebook: Hikari's Records",
+      "Instagram: Hikari's Records"
+    ]
+  }
+}

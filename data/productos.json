@@ -1,0 +1,127 @@
+{
+  "productos": {
+    "titulo": "Products",
+    "subtitulo": "Browse our full catalog of music records and merchandise"
+  },
+  "lista_productos": [
+    {
+      "id": 1,
+      "nombre": "Abbey Road",
+      "album": "Abbey Road",
+      "precio": 24.99,
+      "stock": 15,
+      "fecha_lanzamiento": "1969-09-26",
+      "imagen": "https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg",
+      "artista": "The Beatles",
+      "genero": "Rock",
+      "tipo": "Vinyl"
+    },
+    {
+      "id": 2,
+      "nombre": "Thank U, Next",
+      "album": "Thank U, Next",
+      "precio": 19.99,
+      "stock": 22,
+      "fecha_lanzamiento": "2019-02-08",
+      "imagen": "https://upload.wikimedia.org/wikipedia/en/d/dd/Thank_U%2C_Next_album_cover.png",
+      "artista": "Ariana Grande",
+      "genero": "Pop",
+      "tipo": "CD"
+    },
+    {
+      "id": 3,
+      "nombre": "Dynamite",
+      "album": "Dynamite",
+      "precio": 21.99,
+      "stock": 40,
+      "fecha_lanzamiento": "2020-08-21",
+      "imagen": "https://upload.wikimedia.org/wikipedia/en/7/7a/BTS_-_Dynamite.png",
+      "artista": "BTS",
+      "genero": "K-Pop",
+      "tipo": "CD"
+    },
+    {
+      "id": 4,
+      "nombre": "Sweetener",
+      "album": "Sweetener",
+      "precio": 18.99,
+      "stock": 10,
+      "fecha_lanzamiento": "2018-08-17",
+      "imagen": "https://upload.wikimedia.org/wikipedia/en/a/a3/Sweetener_album_cover.png",
+      "artista": "Ariana Grande",
+      "genero": "Pop",
+      "tipo": "Vinyl"
+    },
+    {
+      "id": 5,
+      "nombre": "Ditto",
+      "album": "Ditto",
+      "precio": 22.50,
+      "stock": 30,
+      "fecha_lanzamiento": "2022-12-19",
+      "imagen": "https://upload.wikimedia.org/wikipedia/en/9/9c/NewJeans_-_Ditto.png",
+      "artista": "NewJeans",
+      "genero": "K-Pop",
+      "tipo": "CD"
+    },
+    {
+      "id": 6,
+      "nombre": "Un Verano Sin Ti",
+      "album": "Un Verano Sin Ti",
+      "precio": 23.99,
+      "stock": 18,
+      "fecha_lanzamiento": "2022-05-06",
+      "imagen": "https://upload.wikimedia.org/wikipedia/en/1/1c/Bad_Bunny_-_Un_Verano_Sin_Ti.png",
+      "artista": "Bad Bunny",
+      "genero": "Reggaeton",
+      "tipo": "Vinyl"
+    },
+    {
+      "id": 7,
+      "nombre": "Midnights",
+      "album": "Midnights",
+      "precio": 26.99,
+      "stock": 25,
+      "fecha_lanzamiento": "2022-10-21",
+      "imagen": "https://upload.wikimedia.org/wikipedia/en/9/9f/Midnights_-_Taylor_Swift.png",
+      "artista": "Taylor Swift",
+      "genero": "Pop",
+      "tipo": "Vinyl"
+    },
+    {
+      "id": 8,
+      "nombre": "After Hours",
+      "album": "After Hours",
+      "precio": 20.99,
+      "stock": 14,
+      "fecha_lanzamiento": "2020-03-20",
+      "imagen": "https://upload.wikimedia.org/wikipedia/en/c/c1/The_Weeknd_-_After_Hours.png",
+      "artista": "The Weeknd",
+      "genero": "R&B",
+      "tipo": "CD"
+    }
+  ],
+  "filtros": {
+    "artistas": ["The Beatles", "Ariana Grande", "BTS", "NewJeans", "Bad Bunny", "Taylor Swift", "The Weeknd"],
+    "generos": ["Pop", "Rock", "Reggaeton", "K-Pop", "R&B", "Jazz", "Electronica", "Hip-Hop"],
+    "tipos": ["Vinyl", "CD", "Cassette", "Merchandise"]
+  },
+  "slider_texto": "Whatsapp: 8604-1107",
+  "slider_repeticiones": [1,2,3,4,5,6,7,8,9,10],
+  "footer": {
+    "pagos": [
+      "Paypal: hikaris@gmail.com",
+      "Iban CR72010200009119",
+      "Customer account 102000091197"
+    ],
+    "ubicacion": [
+      "Country: USA",
+      "California Street"
+    ],
+    "contacto": [
+      "Whatsapp: 8604-1107",
+      "Facebook: Hikari's Records",
+      "Instagram: Hikari's Records"
+    ]
+  }
+}
